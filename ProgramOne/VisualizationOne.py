@@ -18,22 +18,26 @@ with open('cars04.csv', 'r') as fp:
 # Convert to dataframe:
 df_cars = pd.DataFrame(data=data)
 
-# Remove extraneous columns:
-df_cars = df_cars[['Vehicle Name', 'HP', 'City MPG']]
-
 # Is there missing data?
 df_cars.__str__().__contains__('*')
 
-# Remove records with an unknown HP or City MPG:
-# mask = np.column_stack([df_cars['HP'].str.contains(r"[*]", na=False) for col in df_cars])
-# df_cars.loc[mask.any(axis=1)]
-df = df_cars.replace(r'[*]', np.nan, regex=True)
-# TODO: now that * has been replaced with np.nan; drop any rows where HP or MPG is np.nan!!!
-df = df.dropna(axis=0, how='any')
+# Remove extraneous columns:
+# Notice that 'Vehicle Name' is included because Figure 1.47 is only Toyotas
+df_cars = df_cars[['Vehicle Name', 'HP', 'City MPG', 'Len', 'Width', 'Weight']]
+
+# Remove records with an unknown HP, City MPG, Len, or Width:
+df_cars = df_cars.replace(r'[*]', np.nan, regex=True)
+df_cars = df_cars.dropna(axis=0, how='any')
+
+# Add in column with vehicle area:
+df_cars['Area'] = [int(l)*int(w) for l,w in zip(df_cars['Len'], df_cars['Width'])]
+
+# Ensure all nan's have been dropped from 'HP':
 # df = df[np.isfinite(df['HP'])]
+
 # Filter by Toyota vehicles:
 toyota_only = df_cars[df_cars['Vehicle Name'].str.contains('Toyota')]
-toyota_hp_vs_mpg = toyota_only[['Vehicle Name', 'HP', 'City MPG']]
+toyota_hp_vs_mpg = toyota_only[['Vehicle Name', 'HP', 'City MPG', 'Area', 'Weight']]
 
 # Create the scatter plot:
 # Reference URL: https://stackoverflow.com/questions/17682216/scatter-plot-and-color-mapping-in-python
@@ -42,22 +46,25 @@ toyota_hp_vs_mpg = toyota_only[['Vehicle Name', 'HP', 'City MPG']]
 x = df_cars['HP']
 y = df_cars['City MPG']
 fig, ax = plt.subplots()
-# plt.scatter(x,y,marker='s',)
 fig.colors = ['red', 'green', 'blue']
 # y_min = int(toyota_hp_vs_mpg['City MPG'].min(0))
 # y_max = int(toyota_hp_vs_mpg['City MPG'].max(0))
 # x_min = int(toyota_hp_vs_mpg['HP'].min(0))
 # x_max = int(toyota_hp_vs_mpg['HP'].max(0))
-# plt.axis([x_min, x_max, y_min, y_max])
-plt.scatter(x, y, marker='s', facecolors='None', edgecolor='black', linewidths=0.5)
+
+# Let the size of the marker represent the weight of the vehicle:
+# https://stackoverflow.com/questions/14827650/pyplot-scatter-plot-marker-size
+plt.scatter(x, y, marker='s', s=df_cars['Weight'], facecolors='None', edgecolor='black', linewidths=0.5)
+
+
 # ax.scatter(x, y, marker='s', c='bue', facecolors='None')
-# TODO: Okay to draw on top of existing points? Or do i want to filter first?
 ax.scatter(toyota_only['HP'], toyota_only['City MPG'], marker='s', c='green')
 plt.axis(y=np.arange(10, 60, 5), x=np.arange(73, 500, 42.7))
 # plt.axis(y=np.arange(10,60,5))
 # plt.yticks(np.arange(10.0,65.0,5.0))
 plt.xticks(np.arange(73, 542.7, 42.7))
 ax.legend()
-plt.xlabel('HP')
-plt.ylabel('City MPG')
+plt.xlabel('Horse Power')
+plt.ylabel('City Miles-Per-Gallon')
+plt.title('')
 plt.show()
