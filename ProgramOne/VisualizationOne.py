@@ -9,6 +9,7 @@ __version__ = "1/25/2018"
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+import matplotlib.patches as mpatches
 from sklearn.preprocessing import normalize
 from matplotlib import cm
 
@@ -66,8 +67,24 @@ def map_color_to_vehicle_type(df_row):
         color = 'None'
     return color
 
+def map_vehicle_type_to_string(df_row):
+    if int(df_row['Sports Car']) == 1:
+        vehicle_type = 'Sports'
+    elif int(df_row['SUV']) == 1:
+        vehicle_type = 'Sports'
+    elif int(df_row['Wagon']) == 1:
+        vehicle_type = 'Wagon'
+    elif int(df_row['Minivan']) == 1:
+        vehicle_type = 'Minivan'
+    elif int(df_row['Pickup']) == 1:
+        vehicle_type = 'Pickup'
+    else:
+        # print("Vehicle type not identified")
+        vehicle_type = 'Unknown'
+    return vehicle_type
+
 df_cars['Color'] = df_cars.apply(map_color_to_vehicle_type, axis=1)
-# fig.colors = {'Sports Car': 'yellow', 'SUV': 'green', 'Wagon': 'black'}
+df_cars['Vehicle Type'] = df_cars.apply(map_vehicle_type_to_string, axis=1)
 
 # y_min = int(toyota_hp_vs_mpg['City MPG'].min(0))
 # y_max = int(toyota_hp_vs_mpg['City MPG'].max(0))
@@ -79,14 +96,22 @@ df_cars['Color'] = df_cars.apply(map_color_to_vehicle_type, axis=1)
 # size = [int(w) for w in df_cars['Area'].values]
 # normalize:
 # size = size / np.linalg.norm(size)
-plt.scatter(x, y, marker='s', facecolors=df_cars['Color'], edgecolor='black', linewidths=0.5)
+vehicle_scatter = plt.scatter(x, y, marker='s', facecolors=df_cars['Color'], edgecolor='black', linewidths=0.5)
 
 # ax.scatter(x, y, marker='s', c='bue', facecolors='None')
 # ax.scatter(toyota_only['HP'], toyota_only['City MPG'], marker='s', c='green')
 # plt.axis(y=np.arange(10, 60, 5), x=np.arange(73, 500, 42.7))
 plt.xticks(np.arange(73, 542.7, 42.7))
-ax.legend()
+# ax.legend((df_cars['Sports Car'], df_cars['SUV'], df_cars['Wagon'], df_cars['Minivan'], df_cars['Pickup']), ('Yellow', 'Green', 'Black', 'Cyan', 'Purple'))
+yellow_patch = mpatches.Patch(color='yellow', label='Sports Car')
+green_patch = mpatches.Patch(color='green', label='SUV')
+black_patch = mpatches.Patch(color='black', label='Wagon')
+cyan_patch = mpatches.Patch(color='cyan', label='Minivan')
+purple_patch = mpatches.Patch(color='red', label='Pickup')
+none_patch = mpatches.Patch(color='none', label='Unknown')
+plt.legend(handles=[yellow_patch, green_patch, black_patch, cyan_patch, purple_patch, none_patch])
 plt.xlabel('Horse Power')
 plt.ylabel('City Miles-Per-Gallon')
 plt.title('Car Horse Power and Miles-Per-Gallon')
-plt.show()
+plt.savefig(fname='fig_1_47.png')
+# plt.show()
