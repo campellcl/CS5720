@@ -9,6 +9,7 @@ __version__ = "1/25/2018"
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+from sklearn.preprocessing import normalize
 from matplotlib import cm
 
 # Load file:
@@ -23,7 +24,7 @@ df_cars.__str__().__contains__('*')
 
 # Remove extraneous columns:
 # Notice that 'Vehicle Name' is included because Figure 1.47 is only Toyotas
-df_cars = df_cars[['Vehicle Name', 'HP', 'City MPG', 'Len', 'Width', 'Weight']]
+df_cars = df_cars[['Vehicle Name', 'HP', 'City MPG', 'Len', 'Width', 'Weight', 'Sports Car', 'SUV', 'Wagon', 'Minivan', 'Pickup']]
 
 # Remove records with an unknown HP, City MPG, Len, or Width:
 df_cars = df_cars.replace(r'[*]', np.nan, regex=True)
@@ -46,7 +47,28 @@ toyota_hp_vs_mpg = toyota_only[['Vehicle Name', 'HP', 'City MPG', 'Area', 'Weigh
 x = df_cars['HP']
 y = df_cars['City MPG']
 fig, ax = plt.subplots()
-fig.colors = ['red', 'green', 'blue']
+# Color based on vehicle type:
+# https://stackoverflow.com/questions/26139423/plot-different-color-for-different-categorical-levels-using-matplotlib
+
+def map_color_to_vehicle_type(df_row):
+    if int(df_row['Sports Car']) == 1:
+        color = 'Yellow'
+    elif int(df_row['SUV']) == 1:
+        color = 'Green'
+    elif int(df_row['Wagon']) == 1:
+        color = 'Black'
+    elif int(df_row['Minivan']) == 1:
+        color = 'Cyan'
+    elif int(df_row['Pickup']) == 1:
+        color = 'Red'
+    else:
+        # print("Vehicle type not identified")
+        color = 'None'
+    return color
+
+df_cars['Color'] = df_cars.apply(map_color_to_vehicle_type, axis=1)
+# fig.colors = {'Sports Car': 'yellow', 'SUV': 'green', 'Wagon': 'black'}
+
 # y_min = int(toyota_hp_vs_mpg['City MPG'].min(0))
 # y_max = int(toyota_hp_vs_mpg['City MPG'].max(0))
 # x_min = int(toyota_hp_vs_mpg['HP'].min(0))
@@ -54,17 +76,17 @@ fig.colors = ['red', 'green', 'blue']
 
 # Let the size of the marker represent the weight of the vehicle:
 # https://stackoverflow.com/questions/14827650/pyplot-scatter-plot-marker-size
-plt.scatter(x, y, marker='s', s=df_cars['Weight'], facecolors='None', edgecolor='black', linewidths=0.5)
-
+# size = [int(w) for w in df_cars['Area'].values]
+# normalize:
+# size = size / np.linalg.norm(size)
+plt.scatter(x, y, marker='s', facecolors=df_cars['Color'], edgecolor='black', linewidths=0.5)
 
 # ax.scatter(x, y, marker='s', c='bue', facecolors='None')
-ax.scatter(toyota_only['HP'], toyota_only['City MPG'], marker='s', c='green')
-plt.axis(y=np.arange(10, 60, 5), x=np.arange(73, 500, 42.7))
-# plt.axis(y=np.arange(10,60,5))
-# plt.yticks(np.arange(10.0,65.0,5.0))
+# ax.scatter(toyota_only['HP'], toyota_only['City MPG'], marker='s', c='green')
+# plt.axis(y=np.arange(10, 60, 5), x=np.arange(73, 500, 42.7))
 plt.xticks(np.arange(73, 542.7, 42.7))
 ax.legend()
 plt.xlabel('Horse Power')
 plt.ylabel('City Miles-Per-Gallon')
-plt.title('')
+plt.title('Car Horse Power and Miles-Per-Gallon')
 plt.show()
