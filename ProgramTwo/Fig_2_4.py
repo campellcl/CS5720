@@ -49,8 +49,10 @@ def main():
     plt.scatter(x=iris_pca[:,0], y=iris_pca[:,1], marker=(4, 1, 90))
     # plt.scatter(x=iris_pca[:,1], y=iris_pca[:,0], marker=(4, 1, 90))
     # Get the difference in position along the y-axis from PCA y-coord and original.
-    y_diff = []
-    # plt.errorbar(x=iris_pca[:,0], y=iris_pca[:,1])
+    # y_diff = [x-y for x,y in zip(iris_pca[:,1], iris.values[:,1])]
+    y_diff = [y1-y2 for y1,y2 in zip(iris_pca[:,1], iris.values[:,2])]
+    x_diff = [x-y for x,y in zip(iris_pca[:,0], iris.values[:,0])]
+    plt.errorbar(x=iris_pca[:,0], y=iris_pca[:,1], yerr=y_diff, c='green')
     plt.title('Principle Components of the Iris Dataset')
     plt.xlabel('Principle Component One')
     plt.ylabel('Principle Component Two')
