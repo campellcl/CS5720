@@ -43,7 +43,7 @@ def main():
 
     # Add back target labels for vis.
     # Perform PCA:
-    pca = decomposition.PCA(n_components=2)
+    pca = decomposition.PCA(n_components=4)
     sklearn_pca = pca.fit_transform(X=iris.values[:, 0:4], y=None)
     # Multiply transformed data by -1 to revert mirror image:
     sklearn_pca[:,0] = sklearn_pca[:,0] * (-1)
