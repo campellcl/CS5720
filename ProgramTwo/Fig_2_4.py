@@ -12,6 +12,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn import decomposition
 from matplotlib import pyplot as plt
 import matplotlib.patches as mpatches
+import matplotlib.lines as lines
 
 
 def main():
@@ -24,7 +25,9 @@ def main():
     print(iris.info())
 
     # Remove Y (target):
+    Y = iris['class']
     X = np.delete(iris.values, 4, axis=1)
+
 
     # Resource: https://stats.stackexchange.com/questions/235882/pca-in-numpy-and-sklearn-produces-different-results
     # Resource: http://sebastianraschka.com/Articles/2014_pca_step_by_step.html
@@ -38,22 +41,34 @@ def main():
     # PCA:
     # pca = eig.dot(X_std.T)
 
+    # Add back target labels for vis.
     # Perform PCA:
-    pca = decomposition.PCA(n_components=2)
-    iris_pca = pca.fit_transform(X=X_std, y=None)
+    pca = decomposition.PCA(n_components=4)
+    sklearn_pca = pca.fit_transform(X=iris.values[:, 0:4], y=None)
     # Multiply transformed data by -1 to revert mirror image:
-    # iris_pca = iris_pca * (-1)
+    sklearn_pca[:,0] = sklearn_pca[:,0] * (-1)
+
+    # sklearn_pca[:,1] = sklearn_pca[:,1] * (-1)
 
     # Plot Results:
     fig, ax = plt.subplots()
-    plt.scatter(x=iris_pca[:,0], y=iris_pca[:,1], marker=(4, 1, 90))
-    # plt.scatter(x=iris_pca[:,1], y=iris_pca[:,0], marker=(4, 1, 90))
+    # verts the distance between
+    y_verts = []
+    # plt.scatter(x=sklearn_pca[:,0], y=sklearn_pca[:,1], marker=(4, 1, 90))
+    plt.scatter(x=sklearn_pca[0:50,0], y=sklearn_pca[0:50,1], marker='+', color='blue', label='Iris-setosa')
+    plt.scatter(x=sklearn_pca[50:100,0], y=sklearn_pca[50:100,1], marker='+', color='green', label='Iris-versicolor')
+    plt.scatter(x=sklearn_pca[100:,0], y=sklearn_pca[100:,1], marker='+', color='red', label='Iris-virginica')
+    # plt.scatter(x=[x*-1 for x in X_std[:,0]], y=X_std[:,1], marker=lines.TICKUP, c='green')
+    # plt.scatter(x=sklearn_pca[:,1], y=sklearn_pca[:,0], marker=(4, 1, 90))
     # Get the difference in position along the y-axis from PCA y-coord and original.
-    y_diff = []
-    # plt.errorbar(x=iris_pca[:,0], y=iris_pca[:,1])
+    # y_diff = [x-y for x,y in zip(sklearn_pca[:,1], iris.values[:,1])]
+    y_diff = [y1-y2 for y1,y2 in zip(sklearn_pca[:,1], iris.values[:,1])]
+    x_diff = [x-y for x,y in zip(sklearn_pca[:,0], iris.values[:,0])]
+    # plt.errorbar(x=sklearn_pca[:,0], y=sklearn_pca[:,1], yerr=y_diff, c='green')
     plt.title('Principle Components of the Iris Dataset')
     plt.xlabel('Principle Component One')
     plt.ylabel('Principle Component Two')
+    plt.legend()
     plt.show()
 
 if __name__ == '__main__':
