@@ -52,6 +52,7 @@ def main():
     plt.xlabel('Principle Component One')
     plt.ylabel('Principle Component Two')
     plt.legend()
+    plt.savefig('Fig_2_4.png')
     plt.show()
 
 if __name__ == '__main__':
