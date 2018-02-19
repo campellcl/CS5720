@@ -5,6 +5,7 @@ Resources:
     http://pandas.pydata.org/pandas-docs/version/0.9.1/visualization.html#parallel-coordinates
     https://stackoverflow.com/questions/8230638/parallel-coordinates-plot-in-matplotlib
     https://plot.ly/python/parallel-coordinates-plot/
+    http://benalexkeen.com/parallel-coordinates-in-matplotlib/
 """
 
 __author__ = "Chris Campell"
@@ -18,6 +19,8 @@ from pandas.plotting import parallel_coordinates
 with open(sys.argv[1], 'r') as fp:
     iris = pd.read_csv(fp)
 
+# TODO: Modify each individual y-axis to have different scale depending on max and min of attribute.
+
 renamed_cols = list(iris.columns)
 renamed_cols[0] = 'sepal length (cm)'
 renamed_cols[1] = 'sepal width (cm)'
@@ -26,4 +29,4 @@ renamed_cols[3] = 'petal width (cm)'
 iris.columns = renamed_cols
 plt.figure()
 parallel_coordinates(iris, 'class', color=['g','b','c'])
-plt.show()
+plt.savefig(sys.argv[2])
