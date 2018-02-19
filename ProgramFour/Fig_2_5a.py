@@ -43,7 +43,6 @@ data = [
                   colorscale=[[0, '#D7C16B'], [0.5, '#23D8C3'], [1, '#F3F10F']]),
         dimensions=list([
             dict(range=[min(iris['sepal length (cm)']), max(iris['sepal length (cm)'])],
-                 constraintrange=[4, 8],
                  label='Sepal Length (cm)', values=iris['sepal length (cm)']),
             dict(range=[min(iris['sepal width (cm)']), max(iris['sepal width (cm)'])],
                  label='Sepal Width', values=iris['sepal width (cm)']),
