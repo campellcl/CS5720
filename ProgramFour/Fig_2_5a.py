@@ -23,13 +23,6 @@ plotly.tools.set_credentials_file(username='ccampell', api_key='utMKtuFvZHQE8N9R
 with open(sys.argv[1], 'r') as fp:
     iris = pd.read_csv(fp)
 
-# Rename columns:
-renamed_cols = list(iris.columns)
-renamed_cols[0] = 'sepal length (cm)'
-renamed_cols[1] = 'sepal width (cm)'
-renamed_cols[2] = 'petal length (cm)'
-renamed_cols[3] = 'petal width (cm)'
-iris.columns = renamed_cols
 iris['class'] = iris['class'].astype('category')
 #print(iris.dtypes)
 iris['class_cat'] = iris['class'].cat.codes
@@ -40,14 +33,14 @@ data = [
         line=dict(color=iris['class_cat'],
                   colorscale=[[0, '#D7C16B'], [0.5, '#23D8C3'], [1, '#F3F10F']]),
         dimensions=list([
-            dict(range=[min(iris['sepal length (cm)']), max(iris['sepal length (cm)'])],
-                 label='Sepal Length (cm)', values=iris['sepal length (cm)']),
-            dict(range=[min(iris['sepal width (cm)']), max(iris['sepal width (cm)'])],
-                 label='Sepal Width (cm)', values=iris['sepal width (cm)']),
-            dict(range=[min(iris['petal length (cm)']), max(iris['petal length (cm)'])],
-                 label='Petal Length (cm)', values=iris['petal length (cm)']),
-            dict(range=[0, max(iris['petal width (cm)'])],
-                 label='Petal Width (cm)', values=iris['petal width (cm)'])
+            dict(range=[min(iris['sepal length']), max(iris['sepal length'])],
+                 label='Sepal Length (cm)', values=iris['sepal length']),
+            dict(range=[min(iris['sepal width']), max(iris['sepal width'])],
+                 label='Sepal Width (cm)', values=iris['sepal width']),
+            dict(range=[min(iris['petal length']), max(iris['petal length'])],
+                 label='Petal Length (cm)', values=iris['petal length']),
+            dict(range=[0, max(iris['petal width'])],
+                 label='Petal Width (cm)', values=iris['petal width'])
         ])
     )
 ]
@@ -67,6 +60,6 @@ layout = go.Layout(
 fig = go.Figure(data=data, layout=layout)
 plot = py.iplot(fig, filename='fig_2_5a', staticplot=True)
 #print("Plot URL: https://plot.ly/~ccampell/4/figure-25a/")
-print("Plot URL: %s" % plot.resource)
+print("Interactive Plot URL: %s" % plot.resource)
 py.sign_in(username='ccampell', api_key='utMKtuFvZHQE8N9RnRfP')
-py.image.save_as(fig, filename='fig_2_5a.png')
+py.image.save_as(fig, filename=sys.argv[2])
