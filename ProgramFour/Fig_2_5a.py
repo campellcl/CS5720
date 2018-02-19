@@ -18,13 +18,12 @@ from pandas.plotting import parallel_coordinates
 with open(sys.argv[1], 'r') as fp:
     iris = pd.read_csv(fp)
 
-iris_data = iris.iloc[1:]
+renamed_cols = list(iris.columns)
+renamed_cols[0] = 'sepal length (cm)'
+renamed_cols[1] = 'sepal width (cm)'
+renamed_cols[2] = 'petal length (cm)'
+renamed_cols[3] = 'petal width (cm)'
+iris.columns = renamed_cols
 plt.figure()
-
 parallel_coordinates(iris, 'class', color=['g','b','c'])
 plt.show()
-'''
-# Find the max and min of each attribute for lines:
-max(iris['sepal length'])
-min(iris['sepal length'])
-'''
