@@ -2,10 +2,7 @@
 Fig_2_5a.py
 Implementation of figure 2.5a from the course textbook.
 Resources:
-    http://pandas.pydata.org/pandas-docs/version/0.9.1/visualization.html#parallel-coordinates
-    https://stackoverflow.com/questions/8230638/parallel-coordinates-plot-in-matplotlib
-    https://plot.ly/python/parallel-coordinates-plot/
-    http://benalexkeen.com/parallel-coordinates-in-matplotlib/
+    https://plot.ly/python/parallel-coordinates-plot/#reference
 """
 
 __author__ = "Chris Campell"
@@ -19,13 +16,14 @@ import plotly
 import plotly.plotly as py
 import plotly.graph_objs as go
 
+# Plot.ly API AuthO:
 plotly.tools.set_credentials_file(username='ccampell', api_key='utMKtuFvZHQE8N9RnRfP')
 
+# Load data:
 with open(sys.argv[1], 'r') as fp:
     iris = pd.read_csv(fp)
 
-# TODO: Modify each individual y-axis to have different scale depending on max and min of attribute.
-
+# Rename columns:
 renamed_cols = list(iris.columns)
 renamed_cols[0] = 'sepal length (cm)'
 renamed_cols[1] = 'sepal width (cm)'
@@ -45,11 +43,11 @@ data = [
             dict(range=[min(iris['sepal length (cm)']), max(iris['sepal length (cm)'])],
                  label='Sepal Length (cm)', values=iris['sepal length (cm)']),
             dict(range=[min(iris['sepal width (cm)']), max(iris['sepal width (cm)'])],
-                 label='Sepal Width', values=iris['sepal width (cm)']),
+                 label='Sepal Width (cm)', values=iris['sepal width (cm)']),
             dict(range=[min(iris['petal length (cm)']), max(iris['petal length (cm)'])],
-                 label='Petal Length', values=iris['petal length (cm)']),
-            dict(range=[min(iris['petal width (cm)']), max(iris['petal width (cm)'])],
-                 label='Petal Width', values=iris['petal width (cm)'])
+                 label='Petal Length (cm)', values=iris['petal length (cm)']),
+            dict(range=[0, max(iris['petal width (cm)'])],
+                 label='Petal Width (cm)', values=iris['petal width (cm)'])
         ])
     )
 ]
@@ -61,15 +59,11 @@ layout = go.Layout(
         fixedrange=True
     ),
     yaxis=dict(
-        fixedrange=True,
-        showline=False,
-        visible=False
+        fixedrange=True
     )
 )
 
 fig = go.Figure(data=data, layout=layout)
-py.iplot(fig, filename='parcoords-basic', staticplot=True)
-
-#plt.figure()
-# parallel_coordinates(iris, 'class', color=['g','b','c'])
-# plt.savefig(sys.argv[2])
+py.iplot(fig, filename='fig_2_5a', staticplot=True)
+py.sign_in(username='ccampell', api_key='utMKtuFvZHQE8N9RnRfP')
+py.image.save_as(fig, filename='fig_2_5a.png')
