@@ -53,6 +53,7 @@ data = [
 ]
 
 layout = go.Layout(
+    title='Figure 2.5a',
     plot_bgcolor='#E5E5E5',
     paper_bgcolor='#E5E5E5',
     xaxis=dict(
@@ -64,6 +65,8 @@ layout = go.Layout(
 )
 
 fig = go.Figure(data=data, layout=layout)
-py.iplot(fig, filename='fig_2_5a', staticplot=True)
+plot = py.iplot(fig, filename='fig_2_5a', staticplot=True)
+#print("Plot URL: https://plot.ly/~ccampell/4/figure-25a/")
+print("Plot URL: %s" % plot.resource)
 py.sign_in(username='ccampell', api_key='utMKtuFvZHQE8N9RnRfP')
 py.image.save_as(fig, filename='fig_2_5a.png')
