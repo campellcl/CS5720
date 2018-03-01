@@ -64,13 +64,12 @@ def contour(pgm_thresholded, patch=(2,2)):
                 # (x, y) is the indices of the contour cell in the original PGM.
                 # Append to the lookup-table binary index:
                 cell_bin_index = cell_bin_index + str(int(pgm_thresholded[x, y]))
-
             # Give every contour cell a number based on which corners are true/false (via lookup-table):
             contour_pgm[i, j] = lookup_table[cell_bin_index]
     pass
 
 
-pgm_str = None
+pgm = None
 # This is set in the definition of the algorithm, and is not a magic number: (4 vertex in a square)
 num_bits = 4
 
@@ -85,17 +84,18 @@ with open(sys.argv[1], 'r') as fp:
     for i, string_row in enumerate(pgm_str):
         for j, string_col in enumerate(string_row.split(' ')[:-1]):
             pgm[i,j] = int(string_col)
-    lookup_table = build_lookup_table(num_bits=4)
-    pgm_thresholded = threshold(pgm=pgm, isovalue=int(sys.argv[2]))
-    contours = contour(pgm_thresholded)
+
+lookup_table = build_lookup_table(num_bits=4)
+pgm_thresholded = threshold(pgm=pgm, isovalue=int(sys.argv[2]))
+contours = contour(pgm_thresholded)
 
 
-    # source: http://scikit-image.org/docs/dev/auto_examples/edges/plot_contours.html
-    # contours = measure.find_contours(array=pgm, level=sys.argv[2])
-    fig, ax = plt.subplots()
-    cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
-    plt.title('%s, threshold=%s' %(sys.argv[1], sys.argv[2]))
-    cbar = fig.colorbar(cax, ticks=np.arange(0,round(max_value, 1),10), orientation='vertical')
-    for n, contour in enumerate(contours):
-        ax.plot(contour[:, 1], contour[:, 0], linewidth=1, color='red')
-    plt.savefig(sys.argv[3])
+# source: http://scikit-image.org/docs/dev/auto_examples/edges/plot_contours.html
+# contours = measure.find_contours(array=pgm, level=sys.argv[2])
+fig, ax = plt.subplots()
+cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
+plt.title('%s, threshold=%s' %(sys.argv[1], sys.argv[2]))
+cbar = fig.colorbar(cax, ticks=np.arange(0,round(max_value, 1),10), orientation='vertical')
+for n, contour in enumerate(contours):
+    ax.plot(contour[:, 1], contour[:, 0], linewidth=1, color='red')
+plt.savefig(sys.argv[3])
