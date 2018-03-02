@@ -35,7 +35,7 @@ with open(sys.argv[1], 'r') as fp:
     pgm_str = pgm_str[:-1]
     pgm = np.zeros(shape=dims)
     for i, string_row in enumerate(pgm_str):
-        for j, string_col in enumerate(string_row.split(' ')[:-1]):
+        for j, string_col in enumerate(string_row.split(' ')):
             pgm[i,j] = int(string_col)
     # source: http://scikit-image.org/docs/dev/auto_examples/edges/plot_contours.html
     contours = measure.find_contours(array=pgm, level=sys.argv[2])
