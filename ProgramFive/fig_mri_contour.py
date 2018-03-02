@@ -13,7 +13,7 @@ __version__ = "2/26/2018"
 
 def build_lookup_table(num_bits=4):
     lookup_table = {}
-    for i in range(2**num_bits - 1):
+    for i in range(2**num_bits):
         lookup_table['{0:b}'.format(i).zfill(num_bits)] = i
     return lookup_table
 
@@ -66,7 +66,9 @@ def contour(pgm_thresholded, patch=(2,2)):
                 cell_bin_index = cell_bin_index + str(int(pgm_thresholded[x, y]))
             # Give every contour cell a number based on which corners are true/false (via lookup-table):
             contour_pgm[i, j] = lookup_table[cell_bin_index]
-    pass
+    # Go every every cell and replace its case number with the appropriate line plot:
+    return contour_pgm
+
 
 
 pgm = None
@@ -85,9 +87,28 @@ with open(sys.argv[1], 'r') as fp:
         for j, string_col in enumerate(string_row.split(' ')[:-1]):
             pgm[i,j] = int(string_col)
 
-lookup_table = build_lookup_table(num_bits=4)
+# lookup_table = build_lookup_table(num_bits=4)
+lookup_table = {
+    '0000': None,
+    '0001': [(0,0.5), (.5,0)],
+    '0010': [(.5,0), (1, .5)],
+    '0011': [(0, .5), (1, .5)],
+    '0100': [(.5, 1), (1, .5)],
+    '0101': [(0, .5), (.5, 1), (.5, 0), (1, .5)],
+    '0110': [(.5, 0), (.5, 1)],
+    '0111': [(0, .5), (.5, 1)],
+    '1000': [(0, .5), (.5, 1)],
+    '1001': [(.5, 0), (.5, 1)],
+    '1010': [(0, .5), (.5, 0), (.5, 1), (1, .5)],
+    '1011': [(.5, 1), (1, .5)],
+    '1100': [(0, .5), (1, .5)],
+    '1101': [(.5, 0), (1, .5)],
+    '1110': [(0, .5), (.5, 0)],
+    '1111': None
+}
 pgm_thresholded = threshold(pgm=pgm, isovalue=int(sys.argv[2]))
 contours = contour(pgm_thresholded)
+
 
 
 # source: http://scikit-image.org/docs/dev/auto_examples/edges/plot_contours.html
