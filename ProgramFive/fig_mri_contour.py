@@ -32,6 +32,9 @@ def threshold(isovalue, pgm):
                 pgm_thresholded[i, j] = 1
     return pgm_thresholded
 
+def add_to_contours(contour_list):
+    pass
+
 def contour(pgm_thresholded, patch=(2,2)):
     """
     contour: Forms contour cells based on the provided dimensionality and pgm.
@@ -40,17 +43,14 @@ def contour(pgm_thresholded, patch=(2,2)):
     :return contour_pgm: The provided PGM converted to contour cells.
     """
     contour_pgm = np.zeros(shape=(pgm.shape[0]-1, pgm.shape[1]-1))
+    contours = []
     # First step is to look up the contour lines and put them into the cells.
     # Build the lookup table index in a clockwise direction by examining neighbors:
     contour_cells = []
     for i in range(len(pgm_thresholded) - 1):
         contour_cell_row = []
         for j in range(len(pgm_thresholded[i]) - 1):
-            contour_cell = []
-            contour_cell.append((i, j))
-            contour_cell.append((i, j+1))
-            contour_cell.append((i+1, j+1))
-            contour_cell.append((i+1, j))
+            contour_cell = [(i, j), (i, j+1), (i+1, j+1), (i+1, j)]
             contour_cell_row.append(contour_cell)
         contour_cells.append(contour_cell_row)
     contour_cells = np.array(contour_cells)
@@ -65,9 +65,14 @@ def contour(pgm_thresholded, patch=(2,2)):
                 # Append to the lookup-table binary index:
                 cell_bin_index = cell_bin_index + str(int(pgm_thresholded[x, y]))
             # Give every contour cell a number based on which corners are true/false (via lookup-table):
-            contour_pgm[i, j] = lookup_table[cell_bin_index]
+            # contour_pgm[i, j] = lookup_table[cell_bin_index]
+            # TODO: This may return a series of up to 4 (x,y) tuples. What do?
+            contour_line_segments = lookup_table[cell_bin_index]
+            if contour_line_segments is not None:
+                for (x, y) in contour_line_segments:
+                    contours.append([x+j, y+i])
     # Go every every cell and replace its case number with the appropriate line plot:
-    return contour_pgm
+    return contours
 
 
 
@@ -90,7 +95,7 @@ with open(sys.argv[1], 'r') as fp:
 # lookup_table = build_lookup_table(num_bits=4)
 lookup_table = {
     '0000': None,
-    '0001': [(0,0.5), (.5,0)],
+    '0001': [(0, 0.5), (.5, 0)],
     '0010': [(.5,0), (1, .5)],
     '0011': [(0, .5), (1, .5)],
     '0100': [(.5, 1), (1, .5)],
@@ -118,5 +123,5 @@ cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
 plt.title('%s, threshold=%s' %(sys.argv[1], sys.argv[2]))
 cbar = fig.colorbar(cax, ticks=np.arange(0,round(max_value, 1),10), orientation='vertical')
 for n, contour in enumerate(contours):
-    ax.plot(contour[:, 1], contour[:, 0], linewidth=1, color='red')
+    ax.plot(contour[0], contour[1], linewidth=1, color='red')
 plt.savefig(sys.argv[3])
