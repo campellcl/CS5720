@@ -123,5 +123,5 @@ cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
 plt.title('%s, threshold=%s' %(sys.argv[1], sys.argv[2]))
 cbar = fig.colorbar(cax, ticks=np.arange(0,round(max_value, 1),10), orientation='vertical')
 for n, contour in enumerate(contours):
-    ax.plot(contour[0], contour[1], linewidth=1, color='red')
+    ax.plot(contour[:, 1], contour[:, 0], linewidth=1, color='red')
 plt.savefig(sys.argv[3])
