@@ -38,7 +38,8 @@ with open(sys.argv[1], 'r') as fp:
         for j, string_col in enumerate(string_row.split(' ')):
             pgm[i,j] = int(string_col)
     # source: http://scikit-image.org/docs/dev/auto_examples/edges/plot_contours.html
-    contours = measure.find_contours(array=pgm, level=sys.argv[2])
+    # pgm = threshold(isovalue=int(sys.argv[2]),pgm=pgm)
+    contours = measure.find_contours(array=pgm, level=int(sys.argv[2]))
     fig, ax = plt.subplots()
     cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
     plt.title('%s, threshold=%s' %(sys.argv[1], sys.argv[2]))
