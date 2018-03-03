@@ -89,7 +89,7 @@ with open(sys.argv[1], 'r') as fp:
     pgm_str = pgm_str[:-1]
     pgm = np.zeros(shape=dims)
     for i, string_row in enumerate(pgm_str):
-        for j, string_col in enumerate(string_row.split(' ')[:-1]):
+        for j, string_col in enumerate(string_row.split(' ')):
             pgm[i,j] = int(string_col)
 
 # lookup_table = build_lookup_table(num_bits=4)
@@ -112,7 +112,7 @@ lookup_table = {
     '1111': None
 }
 pgm_thresholded = threshold(pgm=pgm, isovalue=int(sys.argv[2]))
-contours = contour(pgm_thresholded)
+contours = [np.array(contour(pgm_thresholded))]
 
 
 
