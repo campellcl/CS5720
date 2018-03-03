@@ -7,6 +7,7 @@ import sys
 import numpy as np
 from skimage import measure
 import matplotlib.pyplot as plt
+from matplotlib import collections as mc
 
 __author__ = "Chris Campell"
 __version__ = "2/26/2018"
@@ -52,9 +53,11 @@ def contour(pgm_thresholded, patch=(2,2)):
             cell_bin_index = ''.join(str(int(pgm_thresholded[x, y])) for x, y in contour_cell)
             # Perform a lookup using the binary index:
             contour_line_segments = lookup_table[cell_bin_index]
+            contour_segment = []
             if contour_line_segments is not None:
                 for n, (x, y) in enumerate(contour_line_segments):
-                    contours.append([x+j, y+i])
+                    contour_segment.append((x+j, y+i))
+                contours.append(contour_segment)
         contour_cells.append(contour_cell_row)
     contour_cells = np.array(contour_cells)
 
@@ -115,9 +118,7 @@ lookup_table = {
     '1111': None
 }
 pgm_thresholded = threshold(pgm=pgm, isovalue=int(sys.argv[2]))
-contours = [np.array(contour(pgm_thresholded))]
-
-
+contours = contour(pgm_thresholded)
 
 # source: http://scikit-image.org/docs/dev/auto_examples/edges/plot_contours.html
 # contours = measure.find_contours(array=pgm, level=sys.argv[2])
@@ -125,6 +126,9 @@ fig, ax = plt.subplots()
 cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
 plt.title('%s, threshold=%s' %(sys.argv[1], sys.argv[2]))
 cbar = fig.colorbar(cax, ticks=np.arange(0,round(max_value, 1),10), orientation='vertical')
-for n, contour in enumerate(contours):
-    ax.plot(contour[:, 1], contour[:, 0], linewidth=1, color='red')
+print('Contour Lines: %s' % contours)
+lc = mc.LineCollection(contours,linewidths=2)
+ax.add_collection(lc)
+# for n, contour in enumerate(contours):
+#     ax.plot(contour[:, 1], contour[:, 0], linewidth=1, color='red')
 plt.savefig(sys.argv[3])
