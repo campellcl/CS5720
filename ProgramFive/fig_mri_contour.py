@@ -32,9 +32,6 @@ def threshold(isovalue, pgm):
                 pgm_thresholded[i, j] = 1
     return pgm_thresholded
 
-def add_to_contours(contour_list):
-    pass
-
 def contour(pgm_thresholded, patch=(2,2)):
     """
     contour: Forms contour cells based on the provided dimensionality and pgm.
@@ -45,32 +42,38 @@ def contour(pgm_thresholded, patch=(2,2)):
     contour_pgm = np.zeros(shape=(pgm.shape[0]-1, pgm.shape[1]-1))
     contours = []
     # First step is to look up the contour lines and put them into the cells.
-    # Build the lookup table index in a clockwise direction by examining neighbors:
     contour_cells = []
     for i in range(len(pgm_thresholded) - 1):
         contour_cell_row = []
         for j in range(len(pgm_thresholded[i]) - 1):
             contour_cell = [(i, j), (i, j+1), (i+1, j+1), (i+1, j)]
             contour_cell_row.append(contour_cell)
+            # Create a binary index based on the values in the cell:
+            cell_bin_index = ''.join(str(int(pgm_thresholded[x, y])) for x, y in contour_cell)
+            # Perform a lookup using the binary index:
+            contour_line_segments = lookup_table[cell_bin_index]
+            if contour_line_segments is not None:
+                for n, (x, y) in enumerate(contour_line_segments):
+                    contours.append([x+j, y+i])
         contour_cells.append(contour_cell_row)
     contour_cells = np.array(contour_cells)
 
     # Give every cell a number based on which corners are true/false:
-    for i, contour_cell_row in enumerate(contour_cells):
-        for j, contour_cell in enumerate(contour_cell_row):
-            # Build the lookup-table binary index:
-            cell_bin_index = ''
-            for k, (x, y) in enumerate(contour_cell):
-                # (x, y) is the indices of the contour cell in the original PGM.
-                # Append to the lookup-table binary index:
-                cell_bin_index = cell_bin_index + str(int(pgm_thresholded[x, y]))
-            # Give every contour cell a number based on which corners are true/false (via lookup-table):
-            # contour_pgm[i, j] = lookup_table[cell_bin_index]
-            # TODO: This may return a series of up to 4 (x,y) tuples. What do?
-            contour_line_segments = lookup_table[cell_bin_index]
-            if contour_line_segments is not None:
-                for (x, y) in contour_line_segments:
-                    contours.append([x+j, y+i])
+    # for i, contour_cell_row in enumerate(contour_cells):
+    #     for j, contour_cell in enumerate(contour_cell_row):
+    #         # Build the lookup-table binary index:
+    #         cell_bin_index = ''
+    #         for k, (x, y) in enumerate(contour_cell):
+    #             # (x, y) is the indices of the contour cell in the original PGM.
+    #             # Append to the lookup-table binary index:
+    #             cell_bin_index = cell_bin_index + str(int(pgm_thresholded[x, y]))
+    #         # Give every contour cell a number based on which corners are true/false (via lookup-table):
+    #         # contour_pgm[i, j] = lookup_table[cell_bin_index]
+    #         # TODO: This may return a series of up to 4 (x,y) tuples. What do?
+    #         contour_line_segments = lookup_table[cell_bin_index]
+    #         if contour_line_segments is not None:
+    #             for (x, y) in contour_line_segments:
+    #                 contours.append([x+j, y+i])
     # Go every every cell and replace its case number with the appropriate line plot:
     return contours
 
