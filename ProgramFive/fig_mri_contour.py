@@ -38,9 +38,8 @@ def contour(pgm_thresholded, patch=(2,2)):
     contour: Forms contour cells based on the provided dimensionality and pgm.
     :param pgm: A Portable Gray Map (PGM) file.
     :param patch: The size of the contour cells.
-    :return contour_pgm: The provided PGM converted to contour cells.
+    :return contours: The provided PGM converted to contour cells.
     """
-    contour_pgm = np.zeros(shape=(pgm.shape[0]-1, pgm.shape[1]-1))
     contours = []
     # First step is to look up the contour lines and put them into the cells.
     contour_cells = []
@@ -124,11 +123,22 @@ contours = contour(pgm_thresholded)
 # contours = measure.find_contours(array=pgm, level=sys.argv[2])
 fig, ax = plt.subplots()
 cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
-plt.title('%s, threshold=%s' %(sys.argv[1], sys.argv[2]))
-cbar = fig.colorbar(cax, ticks=np.arange(0,round(max_value, 1),10), orientation='vertical')
+# plt.xlim((-1, 1))
+# plt.xticks(np.arange(-1, 1.5, .5))
+# plt.ylim((-1, 1))
+# plt.yticks(np.arange(-1, 1.5, .5))
+plt.title('%s, threshold=%s' % (sys.argv[1], sys.argv[2]))
+# plt.xticks(np.arange(0, len(pgm_thresholded), .5))
+cbar = fig.colorbar(cax, ticks=np.arange(0, round(max_value, 1), 10), orientation='vertical')
 print('Contour Lines: %s' % contours)
-lc = mc.LineCollection(contours,linewidths=2)
-ax.add_collection(lc)
-# for n, contour in enumerate(contours):
-#     ax.plot(contour[:, 1], contour[:, 0], linewidth=1, color='red')
+
+# lc = mc.LineCollection([(x, y) for x, y in contours], linewidths=2, color='red', linestyles='solid')
+# ax.add_collection(lc)
+for n, contour in enumerate(contours):
+    plt.plot([x for (x, y) in contour], [y for (x, y) in contour], color='red', linewidth=1)
+    pass
+    # plt.plot(contour[0][0], contour[0][1], contour[1][0], contour[1][1], 'g-')
+    # for x, y in contour:
+    #     plt.plot(x, y, linewidth=1, color='red', linestyle='-')
+
 plt.savefig(sys.argv[3])
