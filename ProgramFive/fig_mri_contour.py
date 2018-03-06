@@ -59,27 +59,7 @@ def contour(pgm_thresholded, patch=(2,2)):
                 contours.append(contour_segment)
         contour_cells.append(contour_cell_row)
     contour_cells = np.array(contour_cells)
-
-    # Give every cell a number based on which corners are true/false:
-    # for i, contour_cell_row in enumerate(contour_cells):
-    #     for j, contour_cell in enumerate(contour_cell_row):
-    #         # Build the lookup-table binary index:
-    #         cell_bin_index = ''
-    #         for k, (x, y) in enumerate(contour_cell):
-    #             # (x, y) is the indices of the contour cell in the original PGM.
-    #             # Append to the lookup-table binary index:
-    #             cell_bin_index = cell_bin_index + str(int(pgm_thresholded[x, y]))
-    #         # Give every contour cell a number based on which corners are true/false (via lookup-table):
-    #         # contour_pgm[i, j] = lookup_table[cell_bin_index]
-    #         # TODO: This may return a series of up to 4 (x,y) tuples. What do?
-    #         contour_line_segments = lookup_table[cell_bin_index]
-    #         if contour_line_segments is not None:
-    #             for (x, y) in contour_line_segments:
-    #                 contours.append([x+j, y+i])
-    # Go every every cell and replace its case number with the appropriate line plot:
     return contours
-
-
 
 pgm = None
 # This is set in the definition of the algorithm, and is not a magic number: (4 vertex in a square)
@@ -100,9 +80,9 @@ with open(sys.argv[1], 'r') as fp:
 # lookup_table = build_lookup_table(num_bits=4)
 lookup_table = {
     '0000': None,
-    '0001': [(-1, 0), (0, -1)],
-    '0010': [(0, -1), (1, 0)],
-    '0011': [(-1, 0), (1, 0)],
+    '0001': [(-1.5, 0.5), (0.5, -1.5)],
+    '0010': [(0.5, -1.5), (1.5, 0.5)],
+    '0011': [(-1.5, 0.5), (1.5, 0.5)],
     '0100': [(0, 1), (1, 0)],
     '0101': [(-1, 0), (0, 1), (0, -1), (1, 0)],
     '0110': [(0, 1), (0, -1)],
@@ -122,6 +102,8 @@ contours = contour(pgm_thresholded)
 # source: http://scikit-image.org/docs/dev/auto_examples/edges/plot_contours.html
 # contours = measure.find_contours(array=pgm, level=sys.argv[2])
 fig, ax = plt.subplots()
+ax.set_xlim((-.5, 1.5))
+ax.set_ylim((1.5, -.5))
 cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
 # plt.xlim((-1, 1))
 # plt.xticks(np.arange(-1, 1.5, .5))
@@ -138,8 +120,7 @@ for contour_line in contours:
         contour_line_inv.append((x, y*-1))
     contour_lines_inverted.append(contour_line_inv)
 print('Contour Lines Inverted: %s' % contour_lines_inverted)
-ax.set_xlim((-.5, 1.5))
-ax.set_ylim((1.5, -.5))
+
 lc = mc.LineCollection(contour_lines_inverted, linewidths=2, color='red', linestyles='solid')
 ax.add_collection(lc)
 # ax.autoscale()
