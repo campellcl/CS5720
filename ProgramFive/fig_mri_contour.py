@@ -54,9 +54,19 @@ def contour(pgm_thresholded, patch=(2,2)):
             contour_line_segments = lookup_table[cell_bin_index]
             contour_segment = []
             if contour_line_segments is not None:
-                for n, (x, y) in enumerate(contour_line_segments):
-                    contour_segment.append((x+j, y+i))
-                contours.append(contour_segment)
+                # If there are two lines present...
+                if len(contour_line_segments) == 4:
+                    for n, (x, y) in enumerate(contour_line_segments):
+                        contour_segment.append((x+j, y+i))
+                        if n == 1:
+                            contours.append(contour_segment)
+                            contour_segment = []
+                        elif n == 3:
+                            contours.append(contour_segment)
+                else:
+                    for n, (x, y) in enumerate(contour_line_segments):
+                        contour_segment.append((x+j, y+i))
+                    contours.append(contour_segment)
         contour_cells.append(contour_cell_row)
     contour_cells = np.array(contour_cells)
     return contours
@@ -84,7 +94,7 @@ lookup_table = {
     '0010': [(0.5, -1.5), (1.5, -0.5)],
     '0011': [(-.5, -0.5), (1.5, -0.5)],
     '0100': [(0, 1), (1.5, -0.5)],
-    '0101': [(-1, 0), (0, 1), (0, -1), (1, 0)],
+    '0101': [(-.5, -0.5), (0.5, .5), (0.5, -1.5), (1.5, -0.5)],
     '0110': [(0, 1), (0, -1)],
     '0111': [(-1, 0), (0, 1)],
     '1000': [(-1, 0), (0, 1)],
