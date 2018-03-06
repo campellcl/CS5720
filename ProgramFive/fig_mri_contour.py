@@ -131,13 +131,21 @@ plt.title('%s, threshold=%s' % (sys.argv[1], sys.argv[2]))
 # plt.xticks(np.arange(0, len(pgm_thresholded), .5))
 cbar = fig.colorbar(cax, ticks=np.arange(0, round(max_value, 1), 10), orientation='vertical')
 print('Contour Lines: %s' % contours)
+contour_lines_inverted = []
+for contour_line in contours:
+    contour_line_inv = []
+    for x, y in contour_line:
+        contour_line_inv.append((x, y*-1))
+    contour_lines_inverted.append(contour_line_inv)
 
-# lc = mc.LineCollection([(x, y) for x, y in contours], linewidths=2, color='red', linestyles='solid')
-# ax.add_collection(lc)
-for n, contour in enumerate(contours):
-    plt.plot([x for (x, y) in contour], [y for (x, y) in contour], color='red', linewidth=1)
-    pass
-    # plt.plot(contour[0][0], contour[0][1], contour[1][0], contour[1][1], 'g-')
+ax.set_xlim((-.5, 1.5))
+ax.set_ylim((1.5, -.5))
+lc = mc.LineCollection(contour_lines_inverted, linewidths=2, color='red', linestyles='solid')
+ax.add_collection(lc)
+# ax.autoscale()
+# ax.margins(0.1)
+# for n, contour in enumerate(contours):
+#     plt.plot([x for (x, y) in contour], [y for (x, y) in contour], color='red', linewidth=1)
     # for x, y in contour:
     #     plt.plot(x, y, linewidth=1, color='red', linestyle='-')
 
