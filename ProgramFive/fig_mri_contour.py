@@ -130,14 +130,14 @@ cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
 plt.title('%s, threshold=%s' % (sys.argv[1], sys.argv[2]))
 # plt.xticks(np.arange(0, len(pgm_thresholded), .5))
 cbar = fig.colorbar(cax, ticks=np.arange(0, round(max_value, 1), 10), orientation='vertical')
-print('Contour Lines: %s' % contours)
+
 contour_lines_inverted = []
 for contour_line in contours:
     contour_line_inv = []
     for x, y in contour_line:
         contour_line_inv.append((x, y*-1))
     contour_lines_inverted.append(contour_line_inv)
-
+print('Contour Lines Inverted: %s' % contour_lines_inverted)
 ax.set_xlim((-.5, 1.5))
 ax.set_ylim((1.5, -.5))
 lc = mc.LineCollection(contour_lines_inverted, linewidths=2, color='red', linestyles='solid')
