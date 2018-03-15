@@ -87,7 +87,7 @@ with open(sys.argv[1], 'r') as fp:
     pgm_str = pgm_str[:-1]
     pgm = np.zeros(shape=dims)
     for i, string_row in enumerate(pgm_str):
-        for j, string_col in enumerate(string_row.split(' ')):
+        for j, string_col in enumerate(string_row.split(' ')[:-1]):
             pgm[i,j] = int(string_col)
 
 # lookup_table = build_lookup_table(num_bits=4)
@@ -127,7 +127,7 @@ y_ticks = np.arange(-.5, len(pgm), .5)
 ax.set_ylim((y_ticks[0], y_ticks[-1]))
 # ax.set_ylim((1.5, -.5))
 # ax.set_ylim((-.5, 4.5))
-cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
+cax = ax.imshow(pgm, origin='upper', interpolation='nearest', cmap=plt.cm.gray)
 # plt.xlim((-1, 1))
 # plt.xticks(np.arange(-1, 1.5, .5))
 # plt.ylim((-1, 1))
@@ -144,7 +144,7 @@ for contour_line in contours:
     contour_lines_inverted.append(contour_line_inv)
 print('Contour Lines Inverted: %s' % contour_lines_inverted)
 
-lc = mc.LineCollection(contour_lines_inverted, linewidths=2, color='red', linestyles='solid')
+lc = mc.LineCollection(contours, linewidths=2, color='red', linestyles='solid')
 ax.add_collection(lc)
 # ax.autoscale()
 # ax.margins(0.1)
