@@ -71,7 +71,6 @@ def contour(pgm_thresholded, patch=(2,2)):
                         contour_segment.append((x+j, y+i))
                     contours.append(contour_segment)
         contour_cells.append(contour_cell_row)
-    contour_cells = np.array(contour_cells)
     return contours
 
 pgm = None
@@ -118,31 +117,32 @@ fig, ax = plt.subplots()
 # Get the limits of the x-axis
 # TODO: Code assumes a square pgm:
 x_ticks = np.arange(-.5, len(pgm[0]), .5)
-ax.set_xlim((x_ticks[0], x_ticks[-1]))
+# ax.set_xlim((x_ticks[0], x_ticks[-1]))
 # ax.set_xlim((-.5, 1.5))
 # ax.set_xlim((-.5, 4.5))
 # Get the limits of the y-axis
 # TODO: Code assumes a square pgm:
 y_ticks = np.arange(-.5, len(pgm), .5)
-ax.set_ylim((y_ticks[0], y_ticks[-1]))
+# ax.set_ylim((y_ticks[0], y_ticks[-1]))
 # ax.set_ylim((1.5, -.5))
 # ax.set_ylim((-.5, 4.5))
-cax = ax.imshow(pgm, origin='upper', interpolation='nearest', cmap=plt.cm.gray)
+# cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
 # plt.xlim((-1, 1))
 # plt.xticks(np.arange(-1, 1.5, .5))
 # plt.ylim((-1, 1))
 # plt.yticks(np.arange(-1, 1.5, .5))
+cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
 plt.title('%s, threshold=%s' % (sys.argv[1], sys.argv[2]))
 # plt.xticks(np.arange(0, len(pgm_thresholded), .5))
 cbar = fig.colorbar(cax, ticks=np.arange(0, round(max_value, 1), 10), orientation='vertical')
 
-contour_lines_inverted = []
-for contour_line in contours:
-    contour_line_inv = []
-    for x, y in contour_line:
-        contour_line_inv.append((x, y))
-    contour_lines_inverted.append(contour_line_inv)
-print('Contour Lines Inverted: %s' % contour_lines_inverted)
+# contour_lines_inverted = []
+# for contour_line in contours:
+#     contour_line_inv = []
+#     for x, y in contour_line:
+#         contour_line_inv.append((x, y))
+#     contour_lines_inverted.append(contour_line_inv)
+# print('Contour Lines Inverted: %s' % contour_lines_inverted)
 
 lc = mc.LineCollection(contours, linewidths=2, color='red', linestyles='solid')
 ax.add_collection(lc)
