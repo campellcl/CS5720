@@ -261,7 +261,7 @@ def main():
     glutInit(sys.argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH)
     glutInitWindowSize(window[0], window[1])
-    win_id = glutCreateWindow('cubes')
+    win_id = glutCreateWindow(b'cubes')
 
     glClearColor(0., 0., 0., 1.)
     glShadeModel(GL_SMOOTH)
