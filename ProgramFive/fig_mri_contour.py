@@ -115,9 +115,17 @@ contours = contour(pgm_thresholded)
 # source: http://scikit-image.org/docs/dev/auto_examples/edges/plot_contours.html
 # contours = measure.find_contours(array=pgm, level=sys.argv[2])
 fig, ax = plt.subplots()
-ax.set_xlim((-.5, 1.5))
+# Get the limits of the x-axis
+# TODO: Code assumes a square pgm:
+x_ticks = np.arange(-.5, len(pgm[0]), .5)
+ax.set_xlim((x_ticks[0], x_ticks[-1]))
+# ax.set_xlim((-.5, 1.5))
 # ax.set_xlim((-.5, 4.5))
-ax.set_ylim((1.5, -.5))
+# Get the limits of the y-axis
+# TODO: Code assumes a square pgm:
+y_ticks = np.arange(-.5, len(pgm), .5)
+ax.set_ylim((y_ticks[0], y_ticks[-1]))
+# ax.set_ylim((1.5, -.5))
 # ax.set_ylim((-.5, 4.5))
 cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
 # plt.xlim((-1, 1))
