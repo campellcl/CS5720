@@ -1,28 +1,23 @@
 """
 FigMRIContour.py
-Implementation of the marching squares algorithm for CS5720.
+Implementation of the marching squares algorithm for CS5720. Takes as input three command line arguments passed to
+this script:
+1. The name (and directory) of the .pgm file to read as input.
+2. The value for which the .pgm file is to be thresholded.
+3. The name (and/or directory) of the .png file to be saved as output.
 """
 
 import sys
 import numpy as np
-from skimage import measure
 import matplotlib.pyplot as plt
 from matplotlib import collections as mc
 
 __author__ = "Chris Campell"
-__version__ = "2/26/2018"
-
-
-def build_lookup_table(num_bits=4):
-    lookup_table = {}
-    for i in range(2**num_bits):
-        lookup_table['{0:b}'.format(i).zfill(num_bits)] = i
-    return lookup_table
-
+__version__ = "3/15/2018"
 
 def threshold(isovalue, pgm):
     """
-    threshold: Applys a threshold to the 2D feild to make a binary image containing 1 where the data is above the
+    threshold: Applys a threshold to the 2D field to make a binary image containing 1 where the data is above the
         provided isovalue, 0 where the data is below the provided value.
     :param isovalue: The threshold to apply to the image.
     :return pgm_thresholded: The provided PGM file with a 1 where the data is above the provided isovalue, and zeros
@@ -38,10 +33,10 @@ def threshold(isovalue, pgm):
 
 def contour(pgm_thresholded, patch=(2,2)):
     """
-    contour: Forms contour cells based on the provided dimensionality and pgm.
-    :param pgm: A Portable Gray Map (PGM) file.
+    contour: Forms contour cells based on the provided dimensionality and input thesholded PGM.
+    :param pgm_thresholded: A Portable Gray Map (PGM) file that has been thresholded by the user-specified threshold.
     :param patch: The size of the contour cells.
-    :return contours: The provided PGM converted to contour cells.
+    :return contours: A list of lists containing the start and end points for each contour line segment.
     """
     contours = []
     # First step is to look up the contour lines and put them into the cells.
@@ -74,9 +69,10 @@ def contour(pgm_thresholded, patch=(2,2)):
     return contours
 
 pgm = None
-# This is set in the definition of the algorithm, and is not a magic number: (4 vertex in a square)
+# This is set in the definition of the algorithm, and is not a magic number: (there are 4 vertex in a square)
 num_bits = 4
 
+# Read the PGM:
 with open(sys.argv[1], 'r') as fp:
     pgm_str = fp.read()
     pgm_str = pgm_str.split('\n')
@@ -89,7 +85,6 @@ with open(sys.argv[1], 'r') as fp:
         for j, string_col in enumerate(string_row.split(' ')[:-1]):
             pgm[i,j] = int(string_col)
 
-# lookup_table = build_lookup_table(num_bits=4)
 lookup_table = {
     '0000': None,
     '0001': [(0, 0.5), (0.5, 1.0)],
@@ -110,47 +105,13 @@ lookup_table = {
 }
 pgm_thresholded = threshold(pgm=pgm, isovalue=int(sys.argv[2]))
 contours = contour(pgm_thresholded)
-
 # source: http://scikit-image.org/docs/dev/auto_examples/edges/plot_contours.html
-# contours = measure.find_contours(array=pgm, level=sys.argv[2])
 fig, ax = plt.subplots()
-# Get the limits of the x-axis
-# TODO: Code assumes a square pgm:
-x_ticks = np.arange(-.5, len(pgm[0]), .5)
-# ax.set_xlim((x_ticks[0], x_ticks[-1]))
-# ax.set_xlim((-.5, 1.5))
-# ax.set_xlim((-.5, 4.5))
-# Get the limits of the y-axis
-# TODO: Code assumes a square pgm:
-y_ticks = np.arange(-.5, len(pgm), .5)
-# ax.set_ylim((y_ticks[0], y_ticks[-1]))
-# ax.set_ylim((1.5, -.5))
-# ax.set_ylim((-.5, 4.5))
-# cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
-# plt.xlim((-1, 1))
-# plt.xticks(np.arange(-1, 1.5, .5))
-# plt.ylim((-1, 1))
-# plt.yticks(np.arange(-1, 1.5, .5))
 cax = ax.imshow(pgm, interpolation='nearest', cmap=plt.cm.gray)
 plt.title('%s, threshold=%s' % (sys.argv[1], sys.argv[2]))
-# plt.xticks(np.arange(0, len(pgm_thresholded), .5))
+# Create the color bar:
 cbar = fig.colorbar(cax, ticks=np.arange(0, round(max_value, 1), 10), orientation='vertical')
-
-# contour_lines_inverted = []
-# for contour_line in contours:
-#     contour_line_inv = []
-#     for x, y in contour_line:
-#         contour_line_inv.append((x, y))
-#     contour_lines_inverted.append(contour_line_inv)
-# print('Contour Lines Inverted: %s' % contour_lines_inverted)
-
+# Create a collection of line segments and plot the contour lines on the axis:
 lc = mc.LineCollection(contours, linewidths=2, color='red', linestyles='solid')
 ax.add_collection(lc)
-# ax.autoscale()
-# ax.margins(0.1)
-# for n, contour in enumerate(contours):
-#     plt.plot([x for (x, y) in contour], [y for (x, y) in contour], color='red', linewidth=1)
-    # for x, y in contour:
-    #     plt.plot(x, y, linewidth=1, color='red', linestyle='-')
-
 plt.savefig(sys.argv[3])
