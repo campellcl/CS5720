@@ -15,6 +15,7 @@ from matplotlib import collections as mc
 __author__ = "Chris Campell"
 __version__ = "3/15/2018"
 
+
 def threshold(isovalue, pgm):
     """
     threshold: Applys a threshold to the 2D field to make a binary image containing 1 where the data is above the
