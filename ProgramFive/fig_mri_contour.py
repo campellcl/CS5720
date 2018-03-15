@@ -93,7 +93,7 @@ with open(sys.argv[1], 'r') as fp:
 # lookup_table = build_lookup_table(num_bits=4)
 lookup_table = {
     '0000': None,
-    '0001': [(-1.5, 0.5), (0.5, -1.5)],
+    '0001': [(0, 0.5), (0.5, 1.0)],
     '0010': [(0.5, -1.5), (1.5, -0.5)],
     '0011': [(-.5, -0.5), (1.5, -0.5)],
     '0100': [(0, 1), (1.5, -0.5)],
@@ -132,7 +132,7 @@ contour_lines_inverted = []
 for contour_line in contours:
     contour_line_inv = []
     for x, y in contour_line:
-        contour_line_inv.append((x, y*-1))
+        contour_line_inv.append((x, y))
     contour_lines_inverted.append(contour_line_inv)
 print('Contour Lines Inverted: %s' % contour_lines_inverted)
 
