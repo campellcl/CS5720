@@ -12,11 +12,13 @@ from matplotlib import collections as mc
 __author__ = "Chris Campell"
 __version__ = "2/26/2018"
 
+
 def build_lookup_table(num_bits=4):
     lookup_table = {}
     for i in range(2**num_bits):
         lookup_table['{0:b}'.format(i).zfill(num_bits)] = i
     return lookup_table
+
 
 def threshold(isovalue, pgm):
     """
@@ -32,6 +34,7 @@ def threshold(isovalue, pgm):
             if pgm[i, j] > isovalue:
                 pgm_thresholded[i, j] = 1
     return pgm_thresholded
+
 
 def contour(pgm_thresholded, patch=(2,2)):
     """
