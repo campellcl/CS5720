@@ -231,14 +231,30 @@ def create_mesh():
     ]
 
     missed = 0
-    vertices = []
-    normals = []
-
     # TODO: Fill in vertices and normals for each triangle here
+    vertices = {
+        'a': (1, -1, -1),
+        'b': (-1, -1, -1),
+        'c': (-1, -1, 1),
+        'd': (-1, -1, 1),
+        'e': (1, 1, -1),
+        'f': (-1, 1, -1),
+        'g': (-1, 1, 1),
+        'h': (1, 1, 1)
+    }
+    vertices = list(vertices.values())
+    normals = {
+        'right': (1, 0, 0),
+        'left': (-1, 0, 0),
+        'top': (0, 1, 0),
+        'bot': (0, -1, 0),
+        'front': (0, 0, 1),
+        'back': (0, 0, -1)
+    }
+    normals = list(normals.values())
 
     vertices = np.array(vertices)
     normals = np.array(normals)
-
 
 
 def main():
@@ -326,7 +342,6 @@ def display():
     glEnable(GL_LIGHTING)
 
     glutSwapBuffers()
-
 
 
 if __name__ == '__main__':
