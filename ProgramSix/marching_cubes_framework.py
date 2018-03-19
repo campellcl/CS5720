@@ -251,12 +251,7 @@ def create_mesh():
         'g': (0, 1, 1),
         'h': (1, 1, 1)
     }
-    # vertices = list(verts.values())
     vertices = []
-    # vertices = [verts['a'], verts['e'], verts['h'], verts['b'], verts['f'], verts['g']]
-    # vertices = [verts['a'], verts['h'], verts['d']]
-    # vertices = [verts['b'], verts['g'], verts['c']]
-    # vertices = [verts['d'], verts['h'], verts['g']]
     norms = {
         'right': (1, 0, 0),
         'left': (-1, 0, 0),
@@ -265,18 +260,33 @@ def create_mesh():
         'front': (0, 0, 1),
         'back': (0, 0, -1)
     }
-    # normals = list(normals.values())
     normals = []
+    trys = {
+        'aeh': np.array((verts['a'], verts['e'], verts['h'])),
+        'ahd': np.array((verts['a'], verts['h'], verts['d'])),
+        'bfe': np.array((verts['b'], verts['f'], verts['e'])),
+        'bea': np.array((verts['b'], verts['e'], verts['a'])),
+        'bfg': np.array((verts['b'], verts['f'], verts['g'])),
+        'bgc': np.array((verts['b'], verts['g'], verts['c'])),
+        'dhg': np.array((verts['d'], verts['h'], verts['g'])),
+        'dgc': np.array((verts['d'], verts['g'], verts['c'])),
+        'hef': np.array((verts['h'], verts['e'], verts['f'])),
+        'hfg': np.array((verts['h'], verts['f'], verts['g'])),
+        'dab': np.array((verts['d'], verts['a'], verts['b'])),
+        'dbc': np.array((verts['d'], verts['b'], verts['c']))
+    }
     triangles = []
     ''' Right side triangles and normals'''
-    triangles.append(np.array((verts['a'], verts['e'], verts['h'])))
+    # triangles.append(np.array((verts['a'], verts['e'], verts['h'])))
+    triangles.append(trys['aeh'])
     vertices.append(verts['a'])
     vertices.append(verts['e'])
     vertices.append(verts['h'])
     normals.append(norms['right'])
     normals.append(norms['right'])
     normals.append(norms['right'])
-    triangles.append(np.array((verts['a'], verts['h'], verts['d'])))
+    # triangles.append(np.array((verts['a'], verts['h'], verts['d'])))
+    triangles.append(trys['ahd'])
     vertices.append(verts['a'])
     vertices.append(verts['h'])
     vertices.append(verts['d'])
@@ -284,14 +294,16 @@ def create_mesh():
     normals.append(norms['right'])
     normals.append(norms['right'])
     ''' Back side triangles and normals'''
-    triangles.append(np.array((verts['b'], verts['f'], verts['e'])))
+    # triangles.append(np.array((verts['b'], verts['f'], verts['e'])))
+    triangles.append(trys['bfe'])
     vertices.append(verts['b'])
     vertices.append(verts['f'])
     vertices.append(verts['e'])
     normals.append(norms['back'])
     normals.append(norms['back'])
     normals.append(norms['back'])
-    triangles.append(np.array((verts['b'], verts['e'], verts['a'])))
+    # triangles.append(np.array((verts['b'], verts['e'], verts['a'])))
+    triangles.append(trys['bea'])
     vertices.append(verts['b'])
     vertices.append(verts['e'])
     vertices.append(verts['a'])
@@ -299,14 +311,16 @@ def create_mesh():
     normals.append(norms['back'])
     normals.append(norms['back'])
     ''' Left side triangles and normals'''
-    triangles.append(np.array((verts['b'], verts['f'], verts['g'])))
+    # triangles.append(np.array((verts['b'], verts['f'], verts['g'])))
+    triangles.append(trys['bfg'])
     vertices.append(verts['b'])
     vertices.append(verts['f'])
     vertices.append(verts['g'])
     normals.append(norms['left'])
     normals.append(norms['left'])
     normals.append(norms['left'])
-    triangles.append(np.array((verts['b'], verts['g'], verts['c'])))
+    #triangles.append(np.array((verts['b'], verts['g'], verts['c'])))
+    triangles.append(trys['bgc'])
     vertices.append(verts['b'])
     vertices.append(verts['g'])
     vertices.append(verts['c'])
@@ -314,14 +328,16 @@ def create_mesh():
     normals.append(norms['left'])
     normals.append(norms['left'])
     ''' Front side triangles and normals'''
-    triangles.append(np.array((verts['d'], verts['h'], verts['g'])))
+    # triangles.append(np.array((verts['d'], verts['h'], verts['g'])))
+    triangles.append(trys['dhg'])
     vertices.append(verts['d'])
     vertices.append(verts['h'])
     vertices.append(verts['g'])
     normals.append(norms['front'])
     normals.append(norms['front'])
     normals.append(norms['front'])
-    triangles.append(np.array((verts['d'], verts['g'], verts['c'])))
+    # triangles.append(np.array((verts['d'], verts['g'], verts['c'])))
+    triangles.append(trys['dgc'])
     vertices.append(verts['d'])
     vertices.append(verts['g'])
     vertices.append(verts['c'])
@@ -329,14 +345,16 @@ def create_mesh():
     normals.append(norms['front'])
     normals.append(norms['front'])
     ''' Top triangles and normals'''
-    triangles.append(np.array((verts['h'], verts['e'], verts['f'])))
+    # triangles.append(np.array((verts['h'], verts['e'], verts['f'])))
+    triangles.append(trys['hef'])
     vertices.append(verts['h'])
     vertices.append(verts['e'])
     vertices.append(verts['f'])
     normals.append(norms['top'])
     normals.append(norms['top'])
     normals.append(norms['top'])
-    triangles.append(np.array((verts['h'], verts['f'], verts['g'])))
+    # triangles.append(np.array((verts['h'], verts['f'], verts['g'])))
+    triangles.append(trys['hfg'])
     vertices.append(verts['h'])
     vertices.append(verts['f'])
     vertices.append(verts['g'])
@@ -344,7 +362,8 @@ def create_mesh():
     normals.append(norms['top'])
     normals.append(norms['top'])
     ''' Bottom triangles and normals'''
-    triangles.append(np.array((verts['d'], verts['a'], verts['b'])))
+    # triangles.append(np.array((verts['d'], verts['a'], verts['b'])))
+    triangles.append(trys['dab'])
     vertices.append(verts['d'])
     vertices.append(verts['a'])
     vertices.append(verts['b'])
@@ -352,7 +371,8 @@ def create_mesh():
     normals.append(norms['bot'])
     normals.append(norms['bot'])
     normals.append(norms['bot'])
-    triangles.append(np.array((verts['d'], verts['b'], verts['c'])))
+    # triangles.append(np.array((verts['d'], verts['b'], verts['c'])))
+    triangles.append(trys['dbc'])
     vertices.append(verts['d'])
     vertices.append(verts['b'])
     vertices.append(verts['c'])
@@ -360,16 +380,6 @@ def create_mesh():
     normals.append(norms['bot'])
     normals.append(norms['bot'])
 
-
-    # normas = [norms['right']]
-    # normals = [norms['right'], norms['right'], norms['right'], norms['left'], norms['left'], norms['left']]
-    # normals = [norms['front'], norms['front'], norms['front']]
-    # triangles = []
-    # triangles.append(np.array((verts['a'], verts['h'], verts['d'])))
-    # triangles.append(np.array((verts['a'], verts['e'], verts['h'])))
-    # triangles.append(np.array((verts['b'], verts['f'], verts['g'])))
-
-    # triangles.append(np.array((vertices[0], vertic)))
     vertices = np.array(vertices)
     normals = np.array(normals)
 
