@@ -170,6 +170,15 @@ def rotate(r, h):
     return np.array([int(a) for a in list('{0:08b}'.format(h))]).dot(powers[i])
 
 
+def create_triangle(v1, v2, v3, colors=None):
+    glDisable(GL_LIGHTING)
+    glBegin(GL_TRIANGLES)
+    glVertex3fv(v1)
+    glVertex3fv(v2)
+    glVertex3fv(v3)
+    glEnd()
+
+
 def create_mesh():
     global vertices, normals, triangles, points, image_height, image_width, image_depth
 
@@ -232,7 +241,7 @@ def create_mesh():
 
     missed = 0
     # TODO: Fill in vertices and normals for each triangle here
-    vertices = {
+    verts = {
         'a': (1, -1, -1),
         'b': (-1, -1, -1),
         'c': (-1, -1, 1),
@@ -242,8 +251,11 @@ def create_mesh():
         'g': (-1, 1, 1),
         'h': (1, 1, 1)
     }
-    vertices = list(vertices.values())
-    normals = {
+    # vertices = list(vertices.values())
+    # vertices = [(1, -1, -1), (1, 1, -1), (1, 1, 1)]
+    vertices = [verts['a'], verts['e'], verts['h']]
+    # vertices = [verts['a'], verts['e'], verts['h'], verts['a'], verts['h'], verts['d']]
+    norms = {
         'right': (1, 0, 0),
         'left': (-1, 0, 0),
         'top': (0, 1, 0),
@@ -251,8 +263,15 @@ def create_mesh():
         'front': (0, 0, 1),
         'back': (0, 0, -1)
     }
-    normals = list(normals.values())
+    # normals = list(normals.values())
+    # normals = [(1, 0, 0), (1, 0, 0), (1, 0, 0)]
+    # normals = [(1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)]
+    normals = [verts['a'], verts['e'], verts['h']]
+    triangles = []
+    triangles.append(np.array((verts['a'], verts['e'], verts['h'])))
+    # triangles.append(np.array((verts['b'], verts['f'], verts['g'])))
 
+    # triangles.append(np.array((vertices[0], vertic)))
     vertices = np.array(vertices)
     normals = np.array(normals)
 
@@ -330,7 +349,6 @@ def display():
         glColor3fv([1, 1, 1])
         glNormal3fv(normals[i, :])
         glVertex3fv(vertices[i, :])
-
     glEnd()
 
     glPointSize(10)
@@ -340,7 +358,6 @@ def display():
         glVertex3fv(point)
     glEnd()
     glEnable(GL_LIGHTING)
-
     glutSwapBuffers()
 
 
