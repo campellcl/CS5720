@@ -266,7 +266,7 @@ def create_mesh():
     # normals = list(normals.values())
     # normals = [(1, 0, 0), (1, 0, 0), (1, 0, 0)]
     # normals = [(1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)]
-    normals = [verts['a'], verts['e'], verts['h']]
+    normals = [norms['right'], norms['right'], norms['right']]
     triangles = []
     triangles.append(np.array((verts['a'], verts['e'], verts['h'])))
     # triangles.append(np.array((verts['b'], verts['f'], verts['g'])))
