@@ -242,18 +242,18 @@ def create_mesh():
     missed = 0
     # TODO: Fill in vertices and normals for each triangle here
     verts = {
-        'a': (1, -1, -1),
-        'b': (-1, -1, -1),
+        'a': (1, 0, 0),
+        'b': (0, 0, 0),
         'c': (-1, -1, 1),
         'd': (-1, -1, 1),
-        'e': (1, 1, -1),
-        'f': (-1, 1, -1),
-        'g': (-1, 1, 1),
+        'e': (1, 1, 0),
+        'f': (0, 1, 0),
+        'g': (0, 1, 1),
         'h': (1, 1, 1)
     }
     # vertices = list(vertices.values())
     # vertices = [(1, -1, -1), (1, 1, -1), (1, 1, 1)]
-    vertices = [verts['a'], verts['e'], verts['h']]
+    vertices = [verts['a'], verts['e'], verts['h'], verts['b'], verts['f'], verts['g']]
     # vertices = [verts['a'], verts['e'], verts['h'], verts['a'], verts['h'], verts['d']]
     norms = {
         'right': (1, 0, 0),
@@ -266,10 +266,10 @@ def create_mesh():
     # normals = list(normals.values())
     # normals = [(1, 0, 0), (1, 0, 0), (1, 0, 0)]
     # normals = [(1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0), (1, 0, 0)]
-    normals = [norms['right'], norms['right'], norms['right']]
+    normals = [norms['right'], norms['right'], norms['right'], norms['left'], norms['left'], norms['left']]
     triangles = []
     triangles.append(np.array((verts['a'], verts['e'], verts['h'])))
-    # triangles.append(np.array((verts['b'], verts['f'], verts['g'])))
+    triangles.append(np.array((verts['b'], verts['f'], verts['g'])))
 
     # triangles.append(np.array((vertices[0], vertic)))
     vertices = np.array(vertices)
