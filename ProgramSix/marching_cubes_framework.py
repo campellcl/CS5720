@@ -410,6 +410,7 @@ def create_mesh():
     
     weight: 128, 64, 32, 16, 8, 4, 2, 1
     vertex:   h,  g,  f,  e, d, c, b, a
+    access: x[i][j+1][k+1],...,x[i+1][j+1][k] 
     """
     # Code for marching cubes:
     lines = []
@@ -422,15 +423,79 @@ def create_mesh():
                 h0 = x[i+1][j+1][k] + (x[i+1][j][k] * 2) + (x[i+1][j][k+1] * 4) + (x[i+1][j+1][k+1] * 8) \
                     + x[i][j+1][k] * 16 + x[i][j][k] * 32 + x[i][j][k+1] * 64 + x[i][j+1][k+1] * 128
                 print('h0: %d' % h0)
-                # Rotate cube 24 times to see if any cases match:
+                # Rotate cube 24 different ways to see if any cases match:
                 for r in rotations:
-                    # h is the cube after applying a rotation
+                    # h is the cube after applying a rotation:
                     h = rotate(r, h0)
                     print('\th: %d' % h)
                     # We also want to check the opposite contour case for efficiency:
                     ih = invert(h)
                     print('\tih: %d' % ih)
-
+                    # Now check all of the 15 cases for a match:
+                    if h == 0 or ih == 0:
+                        pass
+                        break
+                    elif h == 1 or ih == 1:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 2 or ih == 2:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 3 or ih == 3:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 4 or ih == 4:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 5 or ih == 5:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 6 or ih == 6:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 7 or ih == 7:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 8 or ih == 8:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 9 or ih ==9:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 10 or ih == 10:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 11 or ih == 11:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 12 or ih == 12:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 13 or ih == 13:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                    elif h == 14 or ih == 14:
+                        # TODO: Fill this out using wiki.
+                        line_cases = []
+                        break
+                else:
+                    print('Failed to match %d' % h0)
+                    continue
+                print('rotation', r)
+                # TODO: Finish method with line_case line_collections logic.
 
 
 def main():
