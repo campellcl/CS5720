@@ -1,3 +1,8 @@
+"""
+marching_cubes_framework.py
+Debugging parameters: ./data/cubes/001 2 1
+"""
+
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
@@ -170,13 +175,15 @@ def rotate(r, h):
     return np.array([int(a) for a in list('{0:08b}'.format(h))]).dot(powers[i])
 
 
-def create_triangle(v1, v2, v3, colors=None):
-    glDisable(GL_LIGHTING)
-    glBegin(GL_TRIANGLES)
-    glVertex3fv(v1)
-    glVertex3fv(v2)
-    glVertex3fv(v3)
-    glEnd()
+def invert(h):
+    """
+    invert: Inverts the bit pattern to check for the opposite case (in the 2d marching squares example).
+    :param h:
+    :return:
+    """
+    # TODO: Does this logic hold in 3d?
+    powers = [2**i for i in range(7, -1, -1)]
+    return np.array([int(a) for a in list('{0:08b}'.format(h))]).dot(powers)
 
 
 def create_mesh():
@@ -382,11 +389,54 @@ def create_mesh():
 
     vertices = np.array(vertices)
     normals = np.array(normals)
+    """
+         f --------- e
+       /   |       / |
+      /    |      /  |
+     /     b ----/---a
+    g ----/---- h    /
+    |    /     |    /
+    |   /      |   /
+    |  /       |  /
+    c -------- d /
+    a: x=1, y=0, z=0
+    b: x=0, y=0, z=0
+    c: x=0, y=0, z=1
+    d: x=1, y=0, z=1
+    e: x=1, y=1, z=0
+    f: x=0, y=1, z=0
+    g: x=0, y=1, z=1
+    h: x=1, y=1, z=1
+    
+    weight: 128, 64, 32, 16, 8, 4, 2, 1
+    vertex:   h,  g,  f,  e, d, c, b, a
+    """
+    # Code for marching cubes:
+    lines = []
+    for i in range(image_width - 1):
+        for j in range(image_height - 1):
+            for k in range(image_depth - 1):
+                '''
+                h0 = (a*1) + (b*2) + (c*4) + (d*8) + (e*16) + (f*32) + (g*64) + (h*128)
+                '''
+                h0 = x[i+1][j+1][k] + (x[i+1][j][k] * 2) + (x[i+1][j][k+1] * 4) + (x[i+1][j+1][k+1] * 8) \
+                    + x[i][j+1][k] * 16 + x[i][j][k] * 32 + x[i][j][k+1] * 64 + x[i][j+1][k+1] * 128
+                print('h0: %d' % h0)
+                # Rotate cube 24 times to see if any cases match:
+                for r in rotations:
+                    # h is the cube after applying a rotation
+                    h = rotate(r, h0)
+                    print('\th: %d' % h)
+                    # We also want to check the opposite contour case for efficiency:
+                    ih = invert(h)
+                    print('\tih: %d' % ih)
+
 
 
 def main():
     global eye, target, up, fov_y, aspect, near, far, window, image_width, image_height, image_depth, win_id
     create_mesh()
+    # load the appropriate pgm
 
     eye = [(image_width-1)/2, (image_height-1)/2, 2*image_depth]
     target = [(image_width-1)/2, (image_height-1)/2, (image_depth-1)/2]
