@@ -437,6 +437,14 @@ def create_mesh():
                     elif h == 1 or ih == 1:
                         # TODO: Fill this out using wiki.
                         # line_cases = [np.array([(0, 0, .5), (0, .5, 1), (0.5, 0, 1)])]
+                        triangles.append(trys['hfg'])
+                        vertices.append((1, 1, .5))
+                        vertices.append((1, .5, 1))
+                        vertices.append((0.5, 1, 1))
+                        # TODO: Fix the norms.
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
                         break
                     elif h == 2 or ih == 2:
                         # TODO: Fill this out using wiki.
@@ -466,14 +474,6 @@ def create_mesh():
                         # TODO: Fill this out using wiki.
                         # line_cases = [np.array([(0, 0, .5), (0, .5, 1), (0.5, 0, 1)])]
                         # triangles.append(np.array((verts['h'], verts['f'], verts['g'])))
-                        triangles.append(trys['hfg'])
-                        vertices.append((1, 1, .5))
-                        vertices.append((1, .5, 1))
-                        vertices.append((0.5, 1, 1))
-                        # TODO: Fix the norms.
-                        normals.append(norms['top'])
-                        normals.append(norms['top'])
-                        normals.append(norms['top'])
                         break
                     elif h == 9 or ih ==9:
                         # TODO: Fill this out using wiki.
