@@ -419,6 +419,8 @@ def create_mesh():
                 '''
                 h0 = (a*1) + (b*2) + (c*4) + (d*8) + (e*16) + (f*32) + (g*64) + (h*128)
                 '''
+                # contour_cube = [(i, j, k), (i, j)]
+                # list(itertools.combinations(('i', 'i+1', 'j', 'j+1', 'k', 'k+1'), 3))
                 h0 = x[i+1][j+1][k] + (x[i+1][j][k] * 2) + (x[i+1][j][k+1] * 4) + (x[i+1][j+1][k+1] * 8) \
                     + (x[i][j+1][k] * 16) + (x[i][j][k] * 32) + (x[i][j][k+1] * 64) + (x[i][j+1][k+1] * 128)
                 print('h0: %d' % h0)
@@ -439,6 +441,11 @@ def create_mesh():
                         vertices.append((1, 1, .5))
                         vertices.append((1, .5, 1))
                         vertices.append((.5, 1, 1))
+                        vertices = np.array(vertices)
+                        # Invert the rotation
+                        vertices = vertices.dot(r)
+                        # Convert from (x, y, z) to (i, j, k)
+
                         # TODO: Fix the norms.
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -495,7 +502,6 @@ def create_mesh():
                     print('Failed to match %d' % h0)
                     continue
                 print('rotation', r)
-                vertices = np.array(vertices)
                 normals = np.array(normals)
                 # TODO: Finish method with line_case line_collections logic if not already implemented by Dr. parry.
 
