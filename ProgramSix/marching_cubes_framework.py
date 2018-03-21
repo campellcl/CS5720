@@ -445,18 +445,19 @@ def create_mesh():
                         vertices.append((1, .5, 1))
                         vertices.append((.5, 1, 1))
                         vertices = np.array(vertices)
+                        # Rotate 270 deg about y (-90 degrees)
+                        vertices = vertices.dot(rot(-90, 0, 1, 0))
+                        vertices = (vertices + 1) / 2
                         # Invert the rotation
-                        verts_rot = vertices.dot(r.T)
+                        # vertices = vertices.dot(rot(270, 0, 1, 0))
                         # Convert from (x, y, z) to (i, j, k)
                         # Invert the y:
-                        verts_rot[:, [1]] = -verts_rot[:, [1]]
+                        # verts_rot[:, [1]] = -verts_rot[:, [1]]
                         # scale the y
-                        verts_scale = (verts_rot + 1) / 2
-                        # Swap x and y:
-                        verts_scale[:, [0, 1]] = verts_scale[:, [1, 0]]
-                        vertices = verts_scale + np.array([[i, j, k]])
-                        # new_verts = [verts_image]
-                        # lines.extend(new_verts)
+                        # verts_scale = (verts_rot + 1) / 2
+                        # # Swap x and y:
+                        # verts_scale[:, [0, 1]] = verts_scale[:, [1, 0]]
+                        # vertices = verts_scale + np.array([[i, j, k]])
                         # TODO: Fix the norms.
                         normals.append(norms['top'])
                         normals.append(norms['top'])
