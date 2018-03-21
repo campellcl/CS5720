@@ -421,7 +421,7 @@ def create_mesh():
                 h0 = (a*1) + (b*2) + (c*4) + (d*8) + (e*16) + (f*32) + (g*64) + (h*128)
                 '''
                 h0 = x[i+1][j+1][k] + (x[i+1][j][k] * 2) + (x[i+1][j][k+1] * 4) + (x[i+1][j+1][k+1] * 8) \
-                    + x[i][j+1][k] * 16 + x[i][j][k] * 32 + x[i][j][k+1] * 64 + x[i][j+1][k+1] * 128
+                    + (x[i][j+1][k] * 16) + (x[i][j][k] * 32) + (x[i][j][k+1] * 64) + (x[i][j+1][k+1] * 128)
                 print('h0: %d' % h0)
                 # Rotate cube 24 different ways to see if any cases match:
                 for r in rotations:
@@ -437,7 +437,7 @@ def create_mesh():
                         break
                     elif h == 1 or ih == 1:
                         # TODO: Fill this out using wiki.
-                        line_cases = []
+                        # line_cases = [np.array([(0, 0, .5), (0, .5, 1), (0.5, 0, 1)])]
                         break
                     elif h == 2 or ih == 2:
                         # TODO: Fill this out using wiki.
@@ -465,7 +465,7 @@ def create_mesh():
                         break
                     elif h == 8 or ih == 8:
                         # TODO: Fill this out using wiki.
-                        line_cases = []
+                        line_cases = [np.array([(0, 0, .5), (0, .5, 1), (0.5, 0, 1)])]
                         break
                     elif h == 9 or ih ==9:
                         # TODO: Fill this out using wiki.
@@ -496,7 +496,6 @@ def create_mesh():
                     continue
                 print('rotation', r)
                 # TODO: Finish method with line_case line_collections logic.
-
 
 def main():
     global eye, target, up, fov_y, aspect, near, far, window, image_width, image_height, image_depth, win_id
