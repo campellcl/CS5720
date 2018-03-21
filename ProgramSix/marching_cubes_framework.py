@@ -183,7 +183,7 @@ def invert(h):
     """
     # TODO: Does this logic hold in 3d?
     powers = [2**i for i in range(7, -1, -1)]
-    return np.array([int(a) for a in list('{0:08b}'.format(h))]).dot(powers)
+    return np.array([1 - int(a) for a in list('{0:08b}'.format(h))]).dot(powers)
 
 
 def create_mesh():
@@ -435,20 +435,14 @@ def create_mesh():
                         pass
                         break
                     elif h == 1 or ih == 1:
-                        # TODO: Fill this out using wiki.
-                        # line_cases = [np.array([(0, 0, .5), (0, .5, 1), (0.5, 0, 1)])]
                         triangles.append(trys['hfg'])
                         vertices.append((1, 1, .5))
                         vertices.append((1, .5, 1))
-                        vertices.append((0.5, 1, 1))
+                        vertices.append((.5, 1, 1))
                         # TODO: Fix the norms.
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
-                        break
-                    elif h == 2 or ih == 2:
-                        # TODO: Fill this out using wiki.
-                        line_cases = []
                         break
                     elif h == 3 or ih == 3:
                         # TODO: Fill this out using wiki.
@@ -470,11 +464,9 @@ def create_mesh():
                         # TODO: Fill this out using wiki.
                         line_cases = []
                         break
-                    elif h == 8 or ih == 8:
-                        # TODO: Fill this out using wiki.
-                        # line_cases = [np.array([(0, 0, .5), (0, .5, 1), (0.5, 0, 1)])]
-                        # triangles.append(np.array((verts['h'], verts['f'], verts['g'])))
-                        break
+                    # elif h == 8 or ih == 8:
+                    #     # TODO: Fill this out using wiki.
+                    #     break
                     elif h == 9 or ih ==9:
                         # TODO: Fill this out using wiki.
                         line_cases = []
@@ -505,7 +497,7 @@ def create_mesh():
                 print('rotation', r)
                 vertices = np.array(vertices)
                 normals = np.array(normals)
-                # TODO: Finish method with line_case line_collections logic.
+                # TODO: Finish method with line_case line_collections logic if not already implemented by Dr. parry.
 
 def main():
     global eye, target, up, fov_y, aspect, near, far, window, image_width, image_height, image_depth, win_id
