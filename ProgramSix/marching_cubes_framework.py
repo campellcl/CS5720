@@ -423,8 +423,8 @@ def create_mesh():
                 #                        (i, j+1, k), (i, j, k), (i, j, k+1), (i, j+1, k+1)]
                 # h0 = ''.join(str(int(x[i, j, k])) for i, j, k in cube_access_pattern)
                 # list(itertools.combinations(('i', 'i+1', 'j', 'j+1', 'k', 'k+1'), 3))
-                h0 = x[i][j][k] + (x[i][j][k+1] * 2) + (x[i][j+1][k] * 4) + (x[i][j+1][k+1] * 8) \
-                     + (x[i+1][j][k] * 16) + (x[i+1][j][k+1] * 32) + (x[i+1][j+1][k] * 64) + (x[i+1][j+1][k+1] * 128)
+                h0 = x[i][j][k] + (x[i][j][k+1] * 2) + (x[i][j+1][k] * 4) + (x[i+1][j][k+1] * 8) \
+                     + (x[i][j+1][k] * 16) + (x[i][j+1][k+1] * 32) + (x[i+1][j+1][k] * 64) + (x[i+1][j+1][k+1] * 128)
                 # h0 = int(h0, 2)
                 print('h0: %d' % h0)
                 # Rotate cube 24 different ways to see if any cases match:
@@ -445,6 +445,10 @@ def create_mesh():
                         vertices.append((.5, 1, 1))
                         vertices = np.array(vertices)
                         vertices = vertices.dot(r.T)
+                        vertices[:, [1]] = -vertices[:, [1]]
+                        vertices = (vertices + 1) / 2
+                        vertices[:, [0, 1]] = vertices[:, [1, 0]]
+                        vertices = vertices + np.array([[i, j, k]])
                         # verts_rot = vertices.dot(r.T)
                         # Program should be rotatating 270 deg about y (-90 degrees) for cube 002
                         # vertices = vertices.dot(rot(270, 0, 1, 0))
