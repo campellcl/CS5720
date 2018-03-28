@@ -350,25 +350,18 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
-                    elif h == 17 or ih == 17:
+                    elif h == 3 or ih ==3:
                         # First triangle:
-                        vertices.append([1.0, -1.0, 0.0])
-                        vertices.append([1.0, 0.0, -1.0])
-                        vertices.append([-1.0, 0.0, -1.0])
+                        vertices.append([-1, 0, -1])
+                        vertices.append([0, -1, 1])
+                        vertices.append([-1, 0, 1])
                         # Second triangle:
-                        vertices.append([1.0, -1.0, 0.0])
-                        vertices.append([-1.0, 0.0, -1.0])
-                        vertices.append([-1.0, -1.0, 0.0])
-                        # vertices.append([1.0, -1.0, 0.0])
-                        # vertices.append([1.0, 0.0, -1.0])
-                        # vertices.append([-1.0, -1.0, 0.0])
-                        # vertices.append([1.0, -1.0, 0.0])
-                        # vertices.append([1.0, 0.0, 1.0])
-                        # vertices.append([-1.0, 0.0, 1.0])
+                        vertices.append([-1, 0, -1])
+                        vertices.append([0, -1, 1])
+                        vertices.append([0, -1, -1])
                         vertices = np.array(vertices)
-                        # vertices = vertices.dot(r.T)
+                        vertices = vertices.dot(r.T)
                         vertices = (vertices + 1) / 2
-                        # TODO: Fix the norms.
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -376,6 +369,26 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
+                    # elif h == 17 or ih == 17:
+                    #     # First triangle:
+                    #     vertices.append([1.0, -1.0, 0.0])
+                    #     vertices.append([1.0, 0.0, -1.0])
+                    #     vertices.append([-1.0, 0.0, -1.0])
+                    #     # Second triangle:
+                    #     vertices.append([1.0, -1.0, 0.0])
+                    #     vertices.append([-1.0, 0.0, -1.0])
+                    #     vertices.append([-1.0, -1.0, 0.0])
+                    #     vertices = np.array(vertices)
+                    #     # vertices = vertices.dot(r.T)
+                    #     vertices = (vertices + 1) / 2
+                    #     # TODO: Fix the norms.
+                    #     normals.append(norms['top'])
+                    #     normals.append(norms['top'])
+                    #     normals.append(norms['top'])
+                    #     normals.append(norms['top'])
+                    #     normals.append(norms['top'])
+                    #     normals.append(norms['top'])
+                    #     break
                 else:
                     print('Failed to match %d' % h0)
                     continue
