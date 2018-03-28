@@ -339,6 +339,7 @@ def create_mesh():
                         pass
                         break
                     elif h == 1 or ih == 1:
+                        # TODO: pgm 001 works, pgm 002 works, pgm 004 does not.
                         vertices.append([-1.0, 0.0, -1.0])
                         vertices.append([0.0, -1.0, -1.0])
                         vertices.append([-1.0, -1.0, 0.0])
