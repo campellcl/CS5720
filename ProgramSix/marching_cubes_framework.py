@@ -274,16 +274,6 @@ def create_mesh():
 
     missed = 0
     # TODO: Fill in vertices and normals for each triangle here
-    verts = {
-        'a': (1, 0, 0),
-        'b': (0, 0, 0),
-        'c': (0, 0, 1),
-        'd': (1, 0, 1),
-        'e': (1, 1, 0),
-        'f': (0, 1, 0),
-        'g': (0, 1, 1),
-        'h': (1, 1, 1)
-    }
     vertices = []
     norms = {
         'right': (1, 0, 0),
@@ -294,125 +284,7 @@ def create_mesh():
         'back': (0, 0, -1)
     }
     normals = []
-    trys = {
-        'aeh': np.array((verts['a'], verts['e'], verts['h'])),
-        'ahd': np.array((verts['a'], verts['h'], verts['d'])),
-        'bfe': np.array((verts['b'], verts['f'], verts['e'])),
-        'bea': np.array((verts['b'], verts['e'], verts['a'])),
-        'bfg': np.array((verts['b'], verts['f'], verts['g'])),
-        'bgc': np.array((verts['b'], verts['g'], verts['c'])),
-        'dhg': np.array((verts['d'], verts['h'], verts['g'])),
-        'dgc': np.array((verts['d'], verts['g'], verts['c'])),
-        'hef': np.array((verts['h'], verts['e'], verts['f'])),
-        'hfg': np.array((verts['h'], verts['f'], verts['g'])),
-        'dab': np.array((verts['d'], verts['a'], verts['b'])),
-        'dbc': np.array((verts['d'], verts['b'], verts['c']))
-    }
     triangles = []
-    # ''' Right side triangles and normals'''
-    # # triangles.append(np.array((verts['a'], verts['e'], verts['h'])))
-    # triangles.append(trys['aeh'])
-    # vertices.append(verts['a'])
-    # vertices.append(verts['e'])
-    # vertices.append(verts['h'])
-    # normals.append(norms['right'])
-    # normals.append(norms['right'])
-    # normals.append(norms['right'])
-    # # triangles.append(np.array((verts['a'], verts['h'], verts['d'])))
-    # triangles.append(trys['ahd'])
-    # vertices.append(verts['a'])
-    # vertices.append(verts['h'])
-    # vertices.append(verts['d'])
-    # normals.append(norms['right'])
-    # normals.append(norms['right'])
-    # normals.append(norms['right'])
-    # ''' Back side triangles and normals'''
-    # # triangles.append(np.array((verts['b'], verts['f'], verts['e'])))
-    # triangles.append(trys['bfe'])
-    # vertices.append(verts['b'])
-    # vertices.append(verts['f'])
-    # vertices.append(verts['e'])
-    # normals.append(norms['back'])
-    # normals.append(norms['back'])
-    # normals.append(norms['back'])
-    # # triangles.append(np.array((verts['b'], verts['e'], verts['a'])))
-    # triangles.append(trys['bea'])
-    # vertices.append(verts['b'])
-    # vertices.append(verts['e'])
-    # vertices.append(verts['a'])
-    # normals.append(norms['back'])
-    # normals.append(norms['back'])
-    # normals.append(norms['back'])
-    # ''' Left side triangles and normals'''
-    # # triangles.append(np.array((verts['b'], verts['f'], verts['g'])))
-    # triangles.append(trys['bfg'])
-    # vertices.append(verts['b'])
-    # vertices.append(verts['f'])
-    # vertices.append(verts['g'])
-    # normals.append(norms['left'])
-    # normals.append(norms['left'])
-    # normals.append(norms['left'])
-    # #triangles.append(np.array((verts['b'], verts['g'], verts['c'])))
-    # triangles.append(trys['bgc'])
-    # vertices.append(verts['b'])
-    # vertices.append(verts['g'])
-    # vertices.append(verts['c'])
-    # normals.append(norms['left'])
-    # normals.append(norms['left'])
-    # normals.append(norms['left'])
-    # ''' Front side triangles and normals'''
-    # # triangles.append(np.array((verts['d'], verts['h'], verts['g'])))
-    # triangles.append(trys['dhg'])
-    # vertices.append(verts['d'])
-    # vertices.append(verts['h'])
-    # vertices.append(verts['g'])
-    # normals.append(norms['front'])
-    # normals.append(norms['front'])
-    # normals.append(norms['front'])
-    # # triangles.append(np.array((verts['d'], verts['g'], verts['c'])))
-    # triangles.append(trys['dgc'])
-    # vertices.append(verts['d'])
-    # vertices.append(verts['g'])
-    # vertices.append(verts['c'])
-    # normals.append(norms['front'])
-    # normals.append(norms['front'])
-    # normals.append(norms['front'])
-    # ''' Top triangles and normals'''
-    # # triangles.append(np.array((verts['h'], verts['e'], verts['f'])))
-    # triangles.append(trys['hef'])
-    # vertices.append(verts['h'])
-    # vertices.append(verts['e'])
-    # vertices.append(verts['f'])
-    # normals.append(norms['top'])
-    # normals.append(norms['top'])
-    # normals.append(norms['top'])
-    # # triangles.append(np.array((verts['h'], verts['f'], verts['g'])))
-    # triangles.append(trys['hfg'])
-    # vertices.append(verts['h'])
-    # vertices.append(verts['f'])
-    # vertices.append(verts['g'])
-    # normals.append(norms['top'])
-    # normals.append(norms['top'])
-    # normals.append(norms['top'])
-    # ''' Bottom triangles and normals'''
-    # # triangles.append(np.array((verts['d'], verts['a'], verts['b'])))
-    # triangles.append(trys['dab'])
-    # vertices.append(verts['d'])
-    # vertices.append(verts['a'])
-    # vertices.append(verts['b'])
-    # normals.append(norms['bot'])
-    # normals.append(norms['bot'])
-    # normals.append(norms['bot'])
-    # normals.append(norms['bot'])
-    # # triangles.append(np.array((verts['d'], verts['b'], verts['c'])))
-    # triangles.append(trys['dbc'])
-    # vertices.append(verts['d'])
-    # vertices.append(verts['b'])
-    # vertices.append(verts['c'])
-    # normals.append(norms['bot'])
-    # normals.append(norms['bot'])
-    # normals.append(norms['bot'])
-
 
     """
          f --------- e
@@ -467,12 +339,17 @@ def create_mesh():
                         pass
                         break
                     elif h == 1 or ih == 1:
-                        vertices.append((-1, -1, 0))
-                        vertices.append((-1, 0, 1))
-                        vertices.append((0, -1, 1))
+                        vertices.append([-1.0, 0.0, -1.0])
+                        vertices.append([0.0, -1.0, -1.0])
+                        vertices.append([-1.0, -1.0, 0.0])
                         vertices = np.array(vertices)
                         vertices = vertices.dot(r.T)
                         vertices = (vertices + 1) / 2
+                        # vertices.append((-1.0, -1.0, 0.0))
+                        # vertices.append((-1.0, 0.0, 1.0))
+                        # vertices.append((0.0, -1.0, 1.0))
+                        # vertices = np.array(vertices)
+                        # vertices = (vertices + 1) / 2
                         # vertices = vertices.dot(r.T)
                         # vertices[:, [1]] = -vertices[:, [1]]
                         # vertices = (vertices + 1) / 2
