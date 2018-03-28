@@ -345,33 +345,27 @@ def create_mesh():
                         vertices = np.array(vertices)
                         vertices = vertices.dot(r.T)
                         vertices = (vertices + 1) / 2
-                        # vertices.append((-1.0, -1.0, 0.0))
-                        # vertices.append((-1.0, 0.0, 1.0))
-                        # vertices.append((0.0, -1.0, 1.0))
-                        # vertices = np.array(vertices)
-                        # vertices = (vertices + 1) / 2
-                        # vertices = vertices.dot(r.T)
-                        # vertices[:, [1]] = -vertices[:, [1]]
-                        # vertices = (vertices + 1) / 2
-                        # vertices[:, [0, 1]] = vertices[:, [1, 0]]
-                        # vertices = vertices + np.array([[i, j, k]])
-                        # verts_rot = vertices.dot(r.T)
-                        # Program should be rotatating 270 deg about y (-90 degrees) for cube 002
-                        # vertices = vertices.dot(rot(270, 0, 1, 0))
-                        # Instead it is rotating 180 deg about (-1, 1, 0) edge 01
-                        # vertices = vertices.dot(r)
-                        # verts_rot = (verts_rot + 1) / 2
-                        # Invert the rotation
-                        # vertices = vertices.dot(rot(270, 0, 1, 0))
-                        # Convert from (x, y, z) to (i, j, k)
-                        # Invert the y:
-                        # verts_rot[:, [1]] = -verts_rot[:, [1]]
-                        # scale the y
-                        # verts_scale = (verts_rot + 1) / 2
-                        # # Swap x and y:
-                        # verts_scale[:, [0, 1]] = verts_scale[:, [1, 0]]
-                        # vertices = verts_scale + np.array([[i, j, k]])
                         # TODO: Fix the norms.
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        break
+                    elif h == 17 or ih == 17:
+                        # First triangle:
+                        vertices.append([1.0, -1.0, 0.0])
+                        vertices.append([-1.0, 0.0, 1.0])
+                        vertices.append([-1.0, -1.0, 0.0])
+                        # Second triangle:
+                        vertices.append([1.0, -1.0, 0.0])
+                        vertices.append([1.0, 0.0, 1.0])
+                        vertices.append([-1.0, 0.0, 1.0])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r.T)
+                        vertices = (vertices + 1) / 2
+                        # TODO: Fix the norms.
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
