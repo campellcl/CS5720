@@ -353,14 +353,20 @@ def create_mesh():
                     elif h == 17 or ih == 17:
                         # First triangle:
                         vertices.append([1.0, -1.0, 0.0])
-                        vertices.append([-1.0, 0.0, 1.0])
-                        vertices.append([-1.0, -1.0, 0.0])
+                        vertices.append([1.0, 0.0, -1.0])
+                        vertices.append([-1.0, 0.0, -1.0])
                         # Second triangle:
                         vertices.append([1.0, -1.0, 0.0])
-                        vertices.append([1.0, 0.0, 1.0])
-                        vertices.append([-1.0, 0.0, 1.0])
+                        vertices.append([-1.0, 0.0, -1.0])
+                        vertices.append([-1.0, -1.0, 0.0])
+                        # vertices.append([1.0, -1.0, 0.0])
+                        # vertices.append([1.0, 0.0, -1.0])
+                        # vertices.append([-1.0, -1.0, 0.0])
+                        # vertices.append([1.0, -1.0, 0.0])
+                        # vertices.append([1.0, 0.0, 1.0])
+                        # vertices.append([-1.0, 0.0, 1.0])
                         vertices = np.array(vertices)
-                        vertices = vertices.dot(r.T)
+                        # vertices = vertices.dot(r.T)
                         vertices = (vertices + 1) / 2
                         # TODO: Fix the norms.
                         normals.append(norms['top'])
