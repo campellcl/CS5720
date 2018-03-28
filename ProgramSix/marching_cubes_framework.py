@@ -317,12 +317,10 @@ def create_mesh():
                 '''
                 h0 = (a*1) + (b*2) + (c*4) + (d*8) + (e*16) + (f*32) + (g*64) + (h*128)
                 '''
-                # cube_access_pattern = [(i+1, j+1, k), (i+1, j, k), (i+1, j, k+1), (i+1, j+1, k+1),
-                #                        (i, j+1, k), (i, j, k), (i, j, k+1), (i, j+1, k+1)]
-                # h0 = ''.join(str(int(x[i, j, k])) for i, j, k in cube_access_pattern)
-                # list(itertools.combinations(('i', 'i+1', 'j', 'j+1', 'k', 'k+1'), 3))
-                h0 = x[i][j][k] + (x[i][j][k+1] * 2) + (x[i][j+1][k] * 4) + (x[i+1][j][k+1] * 8) \
-                     + (x[i][j+1][k] * 16) + (x[i][j+1][k+1] * 32) + (x[i+1][j+1][k] * 64) + (x[i+1][j+1][k+1] * 128)
+                # h0 = x[i][j][k] + (x[i][j][k+1] * 2) + (x[i][j+1][k] * 4) + (x[i+1][j][k+1] * 8) \
+                #      + (x[i][j+1][k] * 16) + (x[i][j+1][k+1] * 32) + (x[i+1][j+1][k] * 64) + (x[i+1][j+1][k+1] * 128)
+                h0 = x[i][j][k] + (x[i][j][k+1] * 2) + (x[i][j+1][k] * 4) + (x[i][j+1][k+1] * 8) \
+                     + (x[i+1][j][k] * 16) + (x[i+1][j][k+1] * 32) + (x[i+1][j+1][k] * 64) + (x[i+1][j+1][k+1] * 128)
                 # h0 = int(h0, 2)
                 print('h0: %d' % h0)
                 # Rotate cube 24 different ways to see if any cases match:
@@ -339,7 +337,7 @@ def create_mesh():
                         pass
                         break
                     elif h == 1 or ih == 1:
-                        # TODO: pgm 001 works, pgm 002 works, pgm 004 does not.
+                        # TODO: pgm 001 works, pgm 002 works, pgm 004 works, pgm 008 does not.
                         vertices.append([-1.0, 0.0, -1.0])
                         vertices.append([0.0, -1.0, -1.0])
                         vertices.append([-1.0, -1.0, 0.0])
