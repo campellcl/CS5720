@@ -245,6 +245,32 @@ def create_mesh():
         rot(180, sq22, 0, sq22),     # 180 deg about ( 1, 0, 1) edge 26
         rot(180, -sq22, 0, sq22),    # 180 deg about (-1, 0, 1) edge 04
     ]
+    rotation_repr = {
+        0: 'identity',
+        1: '90 deg about x ccw',
+        2: '180 deg about x ccw',
+        3: '270 deg about x ccw',
+        4: '90 deg about y ccw',
+        5: '180 deg about y ccw',
+        6: '270 deg about y ccw',
+        7: '90 deg about z ccw',
+        8: '180 deg about z ccw',
+        9: '270 deg about z ccw',
+        10: '120 deg about ( 1, 1, 1) corner 7',
+        11: '120 deg about (-1,-1,-1) corner 0',
+        12: '120 deg about ( 1, 1,-1) corner 6',
+        13: '120 deg about (-1,-1, 1) corner 1',
+        14: '120 deg about ( 1,-1, 1) corner 5',
+        15: '120 deg about (-1, 1,-1) corner 2',
+        16: '120 deg about ( 1,-1,-1) corner 4',
+        17: '120 deg about (-1, 1, 1) corner 3',
+        18: '180 deg about ( 1, 1, 0) edge 23',
+        19: '180 deg about ( 0, 1, 1) edge 02',
+        20: '180 deg about (-1, 1, 0) edge 01',
+        21: '180 deg about ( 0, 1,-1) edge 13',
+        22: '180 deg about ( 1, 0, 1) edge 26',
+        23: '180 deg about (-1, 0, 1) edge 04'
+    }
 
     missed = 0
     # TODO: Fill in vertices and normals for each triangle here
@@ -429,6 +455,7 @@ def create_mesh():
                 print('h0: %d' % h0)
                 # Rotate cube 24 different ways to see if any cases match:
                 for r_num, r in enumerate(rotations):
+                    print('\tr: %s' % rotation_repr[r_num])
                     # h is the cube after applying a rotation:
                     h = rotate(r, h0)
                     print('\th: %d' % h)
@@ -440,15 +467,17 @@ def create_mesh():
                         pass
                         break
                     elif h == 1 or ih == 1:
-                        vertices.append((1, 1, .5))
-                        vertices.append((1, .5, 1))
-                        vertices.append((.5, 1, 1))
+                        vertices.append((-1, -1, 0))
+                        vertices.append((-1, 0, 1))
+                        vertices.append((0, -1, 1))
                         vertices = np.array(vertices)
                         vertices = vertices.dot(r.T)
-                        vertices[:, [1]] = -vertices[:, [1]]
                         vertices = (vertices + 1) / 2
-                        vertices[:, [0, 1]] = vertices[:, [1, 0]]
-                        vertices = vertices + np.array([[i, j, k]])
+                        # vertices = vertices.dot(r.T)
+                        # vertices[:, [1]] = -vertices[:, [1]]
+                        # vertices = (vertices + 1) / 2
+                        # vertices[:, [0, 1]] = vertices[:, [1, 0]]
+                        # vertices = vertices + np.array([[i, j, k]])
                         # verts_rot = vertices.dot(r.T)
                         # Program should be rotatating 270 deg about y (-90 degrees) for cube 002
                         # vertices = vertices.dot(rot(270, 0, 1, 0))
