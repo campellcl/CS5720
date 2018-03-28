@@ -287,27 +287,27 @@ def create_mesh():
     triangles = []
 
     """
-         f --------- e
+         c --------- g
        /   |       / |
       /    |      /  |
-     /     b ----/---a
-    g ----/---- h    /
+     /     a ----/---e
+    d ----/---- h    /
     |    /     |    /
     |   /      |   /
     |  /       |  /
-    c -------- d /
-    a: x=1, y=0, z=0
-    b: x=0, y=0, z=0
-    c: x=0, y=0, z=1
-    d: x=1, y=0, z=1
-    e: x=1, y=1, z=0
-    f: x=0, y=1, z=0
-    g: x=0, y=1, z=1
+    b -------- f /
+    a: x=-1, y=-1, z=-1
+    b: x=-1, y=-1, z=1
+    c: x=-1, y=1, z=-1
+    d: x=-1, y=1, z=1
+    e: x=1, y=-1, z=-1
+    f: x=1, y=-1, z=1
+    g: x=1, y=1, z=-1
     h: x=1, y=1, z=1
     
     weight: 128, 64, 32, 16, 8, 4, 2, 1
     vertex:   h,  g,  f,  e, d, c, b, a
-    access: x[i][j+1][k+1],...,x[i+1][j+1][k] 
+    access: x[i+1][j+1][k+1],...,x[i][j][k] 
     """
     # Code for marching cubes:
     lines = []
@@ -337,7 +337,10 @@ def create_mesh():
                         pass
                         break
                     elif h == 1 or ih == 1:
-                        # TODO: pgm 001 works, pgm 002 works, pgm 004 works, pgm 008 does not.
+                        '''
+                        TODO: pgm 001 works, pgm 002 works, pgm 004 works, pgm 008 does not, 
+                        pgm 16 works, pgm 032 does not, pgm 064 does not, pgm 128 works. 
+                        '''
                         vertices.append([-1.0, 0.0, -1.0])
                         vertices.append([0.0, -1.0, -1.0])
                         vertices.append([-1.0, -1.0, 0.0])
