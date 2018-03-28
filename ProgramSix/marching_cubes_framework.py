@@ -416,19 +416,15 @@ def create_mesh():
     for i in range(image_width - 1):
         for j in range(image_height - 1):
             for k in range(image_depth - 1):
-                # TODO: Flip rows of x.
                 '''
                 h0 = (a*1) + (b*2) + (c*4) + (d*8) + (e*16) + (f*32) + (g*64) + (h*128)
                 '''
-                # cube_access_pattern = [(i, j+1, k), (i, j, k), (i, j, k+1), (i, j+1, k+1),
-                #                        (i+1, j+1, k), (i+1, j, k), (i+1, j, k+1), (i+1, j+1, k+1)]
-
                 # cube_access_pattern = [(i+1, j+1, k), (i+1, j, k), (i+1, j, k+1), (i+1, j+1, k+1),
                 #                        (i, j+1, k), (i, j, k), (i, j, k+1), (i, j+1, k+1)]
                 # h0 = ''.join(str(int(x[i, j, k])) for i, j, k in cube_access_pattern)
                 # list(itertools.combinations(('i', 'i+1', 'j', 'j+1', 'k', 'k+1'), 3))
-                h0 = x[i+1][j+1][k] + (x[i+1][j][k] * 2) + (x[i][j][k+1] * 4) + (x[i][j+1][k+1] * 8) \
-                    + (x[i][j+1][k] * 16) + (x[i][j][k] * 32) + (x[i+1][j][k+1] * 64) + (x[i+1][j+1][k+1] * 128)
+                h0 = x[i][j][k] + (x[i][j][k+1] * 2) + (x[i][j+1][k] * 4) + (x[i+1][j][k+1] * 8) \
+                     + (x[i][j+1][k] * 16) + (x[i][j+1][k+1] * 32) + (x[i+1][j+1][k] * 64) + (x[i+1][j+1][k+1] * 128)
                 # h0 = int(h0, 2)
                 print('h0: %d' % h0)
                 # Rotate cube 24 different ways to see if any cases match:
@@ -444,23 +440,31 @@ def create_mesh():
                         pass
                         break
                     elif h == 1 or ih == 1:
-                        triangles.append(trys['hfg'])
                         vertices.append((1, 1, .5))
                         vertices.append((1, .5, 1))
                         vertices.append((.5, 1, 1))
                         vertices = np.array(vertices)
-                        # Invert the rotation
                         vertices = vertices.dot(r.T)
+                        vertices[:, [1]] = -vertices[:, [1]]
+                        vertices = (vertices + 1) / 2
+                        vertices[:, [0, 1]] = vertices[:, [1, 0]]
+                        vertices = vertices + np.array([[i, j, k]])
+                        # verts_rot = vertices.dot(r.T)
+                        # Program should be rotatating 270 deg about y (-90 degrees) for cube 002
+                        # vertices = vertices.dot(rot(270, 0, 1, 0))
+                        # Instead it is rotating 180 deg about (-1, 1, 0) edge 01
+                        # vertices = vertices.dot(r)
+                        # verts_rot = (verts_rot + 1) / 2
+                        # Invert the rotation
+                        # vertices = vertices.dot(rot(270, 0, 1, 0))
                         # Convert from (x, y, z) to (i, j, k)
                         # Invert the y:
                         # verts_rot[:, [1]] = -verts_rot[:, [1]]
                         # scale the y
                         # verts_scale = (verts_rot + 1) / 2
-                        # Swap x and y:
+                        # # Swap x and y:
                         # verts_scale[:, [0, 1]] = verts_scale[:, [1, 0]]
                         # vertices = verts_scale + np.array([[i, j, k]])
-                        # new_verts = [verts_image]
-                        # lines.extend(new_verts)
                         # TODO: Fix the norms.
                         normals.append(norms['top'])
                         normals.append(norms['top'])
