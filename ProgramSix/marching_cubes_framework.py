@@ -345,7 +345,7 @@ def create_mesh():
                         vertices.append([0.0, -1.0, -1.0])
                         vertices.append([-1.0, -1.0, 0.0])
                         vertices = np.array(vertices)
-                        vertices = vertices.dot(r.T)
+                        vertices = vertices.dot(r)
                         vertices = (vertices + 1) / 2
                         # TODO: Fix the norms.
                         normals.append(norms['top'])
