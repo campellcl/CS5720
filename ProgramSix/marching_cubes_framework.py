@@ -337,6 +337,7 @@ def create_mesh():
                         pass
                         break
                     elif h == 1 or ih == 1:
+                        # wikipedia case 1
                         '''
                         TODO: pgm 001 works, pgm 002 works, pgm 004 works, pgm 008 does not, 
                         pgm 16 works, pgm 032 does not, pgm 064 does not, pgm 128 works. 
@@ -353,6 +354,7 @@ def create_mesh():
                         normals.append(norms['top'])
                         break
                     elif h == 3 or ih ==3:
+                        # wikipedia case 2
                         # First triangle:
                         vertices.append([-1, 0, -1])
                         vertices.append([0, -1, 1])
@@ -372,6 +374,7 @@ def create_mesh():
                         normals.append(norms['top'])
                         break
                     elif h == 6 or ih == 6:
+                        # wikipedia case 3
                         # First triangle:
                         vertices.append([-1, 0, 1])
                         vertices.append([-1, -1, 0])
@@ -390,7 +393,36 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
+                    elif h == 19 or ih == 19:
+                        # Wikipedia case 4
+                        # tested on: pgm 019, pgm 076
+                        # First triangle:
+                        vertices.append([-1, 0, -1])
+                        vertices.append([-1, 0, 1])
+                        vertices.append([1, 0, -1])
+                        # Second triangle:
+                        vertices.append([-1, 0, 1])
+                        vertices.append([1, 0, -1])
+                        vertices.append([1, -1, 0])
+                        # Third triangle:
+                        vertices.append([-1, 0, 1])
+                        vertices.append([1, -1, 0])
+                        vertices.append([0, -1, 1])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r)
+                        vertices = (vertices + 1) / 2
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        break
                     elif h == 15 or ih == 15:
+                        # wikipedia case 5
                         # First triangle:
                         vertices.append([0, -1, 1])
                         vertices.append([0, 1, 1])
@@ -409,6 +441,7 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
+
                     # elif h == 17 or ih == 17:
                     #     # First triangle:
                     #     vertices.append([1.0, -1.0, 0.0])
