@@ -362,7 +362,26 @@ def create_mesh():
                         vertices.append([0, -1, 1])
                         vertices.append([0, -1, -1])
                         vertices = np.array(vertices)
-                        vertices = vertices.dot(r.T)
+                        vertices = vertices.dot(r)
+                        vertices = (vertices + 1) / 2
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        break
+                    elif h == 6 or ih == 6:
+                        # First triangle:
+                        vertices.append([-1, 0, 1])
+                        vertices.append([-1, -1, 0])
+                        vertices.append([0, -1, 1])
+                        # Second triangle:
+                        vertices.append([-1, 0, -1])
+                        vertices.append([-1, 1, 0])
+                        vertices.append([0, 1, -1])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r)
                         vertices = (vertices + 1) / 2
                         normals.append(norms['top'])
                         normals.append(norms['top'])
