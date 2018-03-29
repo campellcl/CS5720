@@ -390,6 +390,25 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
+                    elif h == 15 or ih == 15:
+                        # First triangle:
+                        vertices.append([0, -1, 1])
+                        vertices.append([0, 1, 1])
+                        vertices.append([0, -1, -1])
+                        # Second triangle:
+                        vertices.append([0, -1, -1])
+                        vertices.append([0, 1, -1])
+                        vertices.append([0, 1, 1])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r)
+                        vertices = (vertices + 1) / 2
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        break
                     # elif h == 17 or ih == 17:
                     #     # First triangle:
                     #     vertices.append([1.0, -1.0, 0.0])
