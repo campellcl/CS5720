@@ -618,6 +618,35 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
+                    elif h == 44 or ih == 44:
+                        # Wikipedia case 11 (coded on pgm 052)
+                        # Tested on: pgm 44, pgm 52, pgm 098, pgm 131
+                        # similar: pgm 067
+                        # First Triangle:
+                        vertices.append([1, 0, 1])
+                        vertices.append([1, -1, 0])
+                        vertices.append([0, -1, 1])
+                        # Second Triangle:
+                        vertices.append([0, 1, -1])
+                        vertices.append([0, 1, 1])
+                        vertices.append([-1, 0, -1])
+                        # Third Triangle:
+                        vertices.append([-1, 0, -1])
+                        vertices.append([0, 1, 1])
+                        vertices.append([-1, 0, 1])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r)
+                        vertices = (vertices + 1) / 2
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        break
                     else:
                         print('Failed to match %d' % h0)
                         continue
