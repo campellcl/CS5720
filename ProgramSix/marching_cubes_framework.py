@@ -524,8 +524,8 @@ def create_mesh():
                         break
                     elif h == 43 or ih == 43:
                         # Wikipedia case 8
-                        # Tested on: pgm 43, pgm 232
-                        # TODO: PGM 232 may not be displaying correct with rotation; hard to tell without full controls.
+                        # Tested on: pgm 43, pgm 232, pgm 212
+                        # NOTE: PGM 232 may not be displaying correct with rotation; hard to tell without full controls.
                         # First Triangle:
                         vertices.append([0, -1, -1])
                         vertices.append([1, -1, 0])
