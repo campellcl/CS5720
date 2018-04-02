@@ -560,6 +560,7 @@ def create_mesh():
                         break
                     elif h == 46 or ih == 46:
                         # TODO: Fix case 9 under rotation with dr. parry's help.
+                        # TODO: Actually this case is just badly broken in general. Re-do pgm tests.
                         # Wikipedia case 9
                         # Tested on: pgm 83, pgm 202, pgm 141, pgm 92,
                         # Case 15 tests: pgm 27,
