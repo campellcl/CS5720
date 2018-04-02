@@ -712,6 +712,41 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
+                    elif h == 172 or ih == 172:
+                        # Wikipeida last case 14 (coded on pgm 053)
+                        # Tested on pgm: pgm 172, pgm 53, pgm 202
+                        # First Triangle:
+                        vertices.append([1, -1, 0])
+                        vertices.append([1, 1, 0])
+                        vertices.append([0, -1, 1])
+                        # Second Triangle:
+                        vertices.append([1, 1, 0])
+                        vertices.append([0, 1, -1])
+                        vertices.append([-1, 0, -1])
+                        # Third Triangle:
+                        vertices.append([1, 1, 0])
+                        vertices.append([0, -1, 1])
+                        vertices.append([-1, 0, -1])
+                        # Fourth Traingle:
+                        vertices.append([0, -1, 1])
+                        vertices.append([-1, 0, 1])
+                        vertices.append([-1, 0, -1])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r)
+                        vertices = (vertices + 1) / 2
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        break
                     else:
                         print('Failed to match %d' % h0)
                         continue
