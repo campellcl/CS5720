@@ -675,6 +675,43 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
+                    elif h == 90 or ih == 90:
+                        # TODO: Resolve ih inverse error with case 13. Specifically, should the lines really be drawn in
+                        #   the same place when the vertices are off? How to distinguish between rotation?
+                        # Wikipedia case 13 (coded on pgm 090)
+                        # Tested on: pgm 090, pgm 165
+                        # First Triangle:
+                        vertices.append([-1, 1, 0])
+                        vertices.append([0, -1, 1])
+                        vertices.append([-1, -1, 0])
+                        # Second Triangle:
+                        vertices.append([0, -1, 1])
+                        vertices.append([-1, 1, 0])
+                        vertices.append([0, 1, 1])
+                        # Third Triangle:
+                        vertices.append([0, -1, -1])
+                        vertices.append([1, -1, 0])
+                        vertices.append([0, 1, -1])
+                        # Fourth Triangle:
+                        vertices.append([1, -1, 0])
+                        vertices.append([1, 1, 0])
+                        vertices.append([0, 1, -1])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r)
+                        vertices = (vertices + 1) / 2
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        break
                     else:
                         print('Failed to match %d' % h0)
                         continue
