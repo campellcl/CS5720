@@ -310,6 +310,9 @@ def create_mesh():
     access: x[i+1][j+1][k+1],...,x[i][j][k] 
     """
     # Code for marching cubes:
+    '''
+    URGENT: When coding the following, use the identity rotation as a base case, otherwise will be off by factor of r.
+    '''
     lines = []
     for i in range(image_width - 1):
         for j in range(image_height - 1):
@@ -338,10 +341,7 @@ def create_mesh():
                         break
                     elif h == 1 or ih == 1:
                         # wikipedia case 1
-                        '''
-                        TODO: pgm 001 works, pgm 002 works, pgm 004 works, pgm 008 does not, 
-                        pgm 16 works, pgm 032 does not, pgm 064 does not, pgm 128 works. 
-                        '''
+                        # tested on: pmg 001, pgm 002, pgm 004, pgm 008, pgm 016, pgm 032, pgm 064, pgm 128
                         vertices.append([-1.0, 0.0, -1.0])
                         vertices.append([0.0, -1.0, -1.0])
                         vertices.append([-1.0, -1.0, 0.0])
@@ -476,32 +476,149 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
-                    # elif h == 17 or ih == 17:
-                    #     # First triangle:
-                    #     vertices.append([1.0, -1.0, 0.0])
-                    #     vertices.append([1.0, 0.0, -1.0])
-                    #     vertices.append([-1.0, 0.0, -1.0])
-                    #     # Second triangle:
-                    #     vertices.append([1.0, -1.0, 0.0])
-                    #     vertices.append([-1.0, 0.0, -1.0])
-                    #     vertices.append([-1.0, -1.0, 0.0])
-                    #     vertices = np.array(vertices)
-                    #     # vertices = vertices.dot(r.T)
-                    #     vertices = (vertices + 1) / 2
-                    #     # TODO: Fix the norms.
-                    #     normals.append(norms['top'])
-                    #     normals.append(norms['top'])
-                    #     normals.append(norms['top'])
-                    #     normals.append(norms['top'])
-                    #     normals.append(norms['top'])
-                    #     normals.append(norms['top'])
-                    #     break
-                else:
-                    print('Failed to match %d' % h0)
-                    continue
+                    elif h == 105 or ih == 105:
+                        # TODO: Resolve rotation error with case 7
+                        # wikipedia case 7
+                        # tested on: pgm 105, pgm 150
+                        # First Triangle:
+                        # vertices.append([-1, 0, -1])
+                        # vertices.append([-1, -1, 0])
+                        # vertices.append([0, -1, -1])
+                        vertices.append([-1, 1, 0])
+                        vertices.append([-1, 0, -1])
+                        vertices.append([0, 1, -1])
+                        # vertices.append([-1, 1, 0])
+                        # vertices.append([0, 1, 1])
+                        # vertices.append([-1, 0, 1])
+                        # Second Triangle:
+                        # vertices.append([0, 1, -1])
+                        # vertices.append([1, 1, 0])
+                        # vertices.append([1, 0, -1])
+                        # Third Triangle:
+                        # vertices.append([-1, -1, 0])
+                        # vertices.append([0, -1, -1])
+                        # vertices.append([-1, 0, -1])
+                        # Fourth Triangle:
+                        # vertices.append([1, -1, 0])
+                        # vertices.append([0, -1, 1])
+                        # vertices.append([1, 0, 1])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r)
+                        vertices = (vertices + 1) / 2
+                        break
+                    elif h == 43 or ih == 43:
+                        # Wikipedia case 8
+                        # Tested on: pgm 43, pgm 232
+                        # TODO: PGM 232 may not be displaying correct with rotation; hard to tell without full controls.
+                        # First Triangle:
+                        vertices.append([0, -1, -1])
+                        vertices.append([1, -1, 0])
+                        vertices.append([-1, 0, -1])
+                        # Second Triangle:
+                        vertices.append([1, -1, 0])
+                        vertices.append([-1, 0, -1])
+                        vertices.append([-1, 1, 0])
+                        # Third Triangle:
+                        vertices.append([1, -1, 0])
+                        vertices.append([-1, 1, 0])
+                        vertices.append([1, 0, 1])
+                        # Fourth Triangle:
+                        vertices.append([1, 0, 1])
+                        vertices.append([-1, 1, 0])
+                        vertices.append([0, 1, 1])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r)
+                        vertices = (vertices + 1) / 2
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        break
+                    elif h == 46 or ih == 46:
+                        # TODO: Fix case 9 under rotation with dr. parry's help.
+                        # Wikipedia case 9
+                        # Tested on: pgm 83, pgm 202, pgm 141, pgm 92,
+                        # Case 15 tests: pgm 27,
+                        # First Triangle:
+                        vertices.append([1, 0, -1])
+                        vertices.append([0, 1, -1])
+                        vertices.append([-1, 1, 0])
+                        # Second Triangle:
+                        vertices.append([-1, 1, 0])
+                        vertices.append([-1, -1, 0])
+                        vertices.append([0, -1, 1])
+                        # Third Triangle:
+                        vertices.append([1, 0, -1])
+                        vertices.append([1, 0, 1])
+                        vertices.append([0, -1, 1])
+                        # Fourth Triangle:
+                        # Note: Comment this triangle out for ease of debugging
+                        vertices.append([-1, 1, 0])
+                        vertices.append([0, -1, 1])
+                        vertices.append([1, 0, -1])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r)
+                        vertices = (vertices + 1) / 2
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        break
+                    elif h == 24 or ih == 24:
+                        # Wikipedia case 10
+                        # Tested on: pgm 24, pgm 129
+                        # First Triangle:
+                        vertices.append([-1, 1, 0])
+                        vertices.append([-1, 0, 1])
+                        vertices.append([0, 1, 1])
+                        # Second Triangle:
+                        vertices.append([0, -1, -1])
+                        vertices.append([1, -1, 0])
+                        vertices.append([1, 0, -1])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r)
+                        vertices = (vertices + 1) / 2
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        break
+                    else:
+                        print('Failed to match %d' % h0)
+                        continue
                 print('rotation', r)
                 normals = np.array(normals)
-                # TODO: Finish method with line_case line_collections logic if not already implemented by Dr. parry.
+
 
 def main():
     global eye, target, up, fov_y, aspect, near, far, window, image_width, image_height, image_depth, win_id
