@@ -441,7 +441,41 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
-
+                    elif h == 147 or ih == 147:
+                        # wikipedia case 6
+                        # tested on: pgm 147
+                        # First triangle:
+                        vertices.append([-1, 0, -1])
+                        vertices.append([-1, 0, 1])
+                        vertices.append([1, 0, -1])
+                        # Second triangle:
+                        vertices.append([-1, 0, 1])
+                        vertices.append([0, 1, 1])
+                        vertices.append([1, 1, 0])
+                        # Third triangle:
+                        vertices.append([-1, 0, 1])
+                        vertices.append([1, 1, 0])
+                        vertices.append([1, 0, -1])
+                        # Fourth triangle:
+                        vertices.append([0, -1, 1])
+                        vertices.append([1, -1, 0])
+                        vertices.append([1, 0, 1])
+                        vertices = np.array(vertices)
+                        vertices = vertices.dot(r)
+                        vertices = (vertices + 1) / 2
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        normals.append(norms['top'])
+                        break
                     # elif h == 17 or ih == 17:
                     #     # First triangle:
                     #     vertices.append([1.0, -1.0, 0.0])
