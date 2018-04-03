@@ -181,7 +181,6 @@ def invert(h):
     :param h:
     :return:
     """
-    # TODO: Does this logic hold in 3d?
     powers = [2**i for i in range(7, -1, -1)]
     return np.array([1 - int(a) for a in list('{0:08b}'.format(h))]).dot(powers)
 
@@ -271,9 +270,7 @@ def create_mesh():
         22: '180 deg about ( 1, 0, 1) edge 26',
         23: '180 deg about (-1, 0, 1) edge 04'
     }
-
     missed = 0
-    # TODO: Fill in vertices and normals for each triangle here
     vertices = []
     norms = {
         'right': (1, 0, 0),
@@ -313,28 +310,25 @@ def create_mesh():
     '''
     URGENT: When coding the following, use the identity rotation as a base case, otherwise will be off by factor of r.
     '''
-    lines = []
     for i in range(image_width - 1):
         for j in range(image_height - 1):
             for k in range(image_depth - 1):
                 '''
                 h0 = (a*1) + (b*2) + (c*4) + (d*8) + (e*16) + (f*32) + (g*64) + (h*128)
                 '''
-                # h0 = x[i][j][k] + (x[i][j][k+1] * 2) + (x[i][j+1][k] * 4) + (x[i+1][j][k+1] * 8) \
-                #      + (x[i][j+1][k] * 16) + (x[i][j+1][k+1] * 32) + (x[i+1][j+1][k] * 64) + (x[i+1][j+1][k+1] * 128)
                 h0 = x[i][j][k] + (x[i][j][k+1] * 2) + (x[i][j+1][k] * 4) + (x[i][j+1][k+1] * 8) \
                      + (x[i+1][j][k] * 16) + (x[i+1][j][k+1] * 32) + (x[i+1][j+1][k] * 64) + (x[i+1][j+1][k+1] * 128)
-                # h0 = int(h0, 2)
-                print('h0: %d' % h0)
+                # print('h0: %d' % h0)
                 # Rotate cube 24 different ways to see if any cases match:
+                rotation = None
                 for r_num, r in enumerate(rotations):
                     print('\tr: %s' % rotation_repr[r_num])
                     # h is the cube after applying a rotation:
                     h = rotate(r, h0)
-                    print('\th: %d' % h)
+                    # print('\th: %d' % h)
                     # We also want to check the opposite contour case for efficiency:
                     ih = invert(h)
-                    print('\tih: %d' % ih)
+                    # print('\tih: %d' % ih)
                     # Now check all of the 15 cases for a match:
                     if h == 0 or ih == 0:
                         pass
@@ -345,9 +339,7 @@ def create_mesh():
                         vertices.append([-1.0, 0.0, -1.0])
                         vertices.append([0.0, -1.0, -1.0])
                         vertices.append([-1.0, -1.0, 0.0])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         # TODO: Fix the norms.
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -363,9 +355,7 @@ def create_mesh():
                         vertices.append([-1, 0, -1])
                         vertices.append([0, -1, 1])
                         vertices.append([0, -1, -1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -383,9 +373,7 @@ def create_mesh():
                         vertices.append([-1, 0, -1])
                         vertices.append([-1, 1, 0])
                         vertices.append([0, 1, -1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -408,9 +396,7 @@ def create_mesh():
                         vertices.append([-1, 0, 1])
                         vertices.append([1, -1, 0])
                         vertices.append([0, -1, 1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -431,9 +417,7 @@ def create_mesh():
                         vertices.append([0, -1, -1])
                         vertices.append([0, 1, -1])
                         vertices.append([0, 1, 1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -460,9 +444,7 @@ def create_mesh():
                         vertices.append([0, -1, 1])
                         vertices.append([1, -1, 0])
                         vertices.append([1, 0, 1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -506,9 +488,7 @@ def create_mesh():
                         # vertices.append([1, -1, 0])
                         # vertices.append([0, -1, 1])
                         # vertices.append([1, 0, 1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -542,9 +522,7 @@ def create_mesh():
                         vertices.append([1, 0, 1])
                         vertices.append([-1, 1, 0])
                         vertices.append([0, 1, 1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -561,7 +539,8 @@ def create_mesh():
                     elif h == 46 or ih == 46:
                         # TODO: Fix case 9 under rotation with dr. parry's help.
                         # TODO: Actually this case is just badly broken in general. Re-do pgm tests.
-                        # Wikipedia case 9
+                        # TODO: Appears this case is not being picked up.... wrong base case or pgm pattern.
+                        # Wikipedia case 9 (coded on pgm 202)
                         # Tested on: pgm 83, pgm 202, pgm 141, pgm 92,
                         # Case 15 tests: pgm 27,
                         # First Triangle:
@@ -573,17 +552,15 @@ def create_mesh():
                         vertices.append([-1, -1, 0])
                         vertices.append([0, -1, 1])
                         # Third Triangle:
-                        vertices.append([1, 0, -1])
-                        vertices.append([1, 0, 1])
-                        vertices.append([0, -1, 1])
+                        # vertices.append([1, 0, -1])
+                        # vertices.append([1, 0, 1])
+                        # vertices.append([0, -1, 1])
                         # Fourth Triangle:
                         # Note: Comment this triangle out for ease of debugging
-                        vertices.append([-1, 1, 0])
-                        vertices.append([0, -1, 1])
-                        vertices.append([1, 0, -1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        # vertices.append([-1, 1, 0])
+                        # vertices.append([0, -1, 1])
+                        # vertices.append([1, 0, -1])
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -608,9 +585,7 @@ def create_mesh():
                         vertices.append([0, -1, -1])
                         vertices.append([1, -1, 0])
                         vertices.append([1, 0, -1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -634,9 +609,7 @@ def create_mesh():
                         vertices.append([-1, 0, -1])
                         vertices.append([0, 1, 1])
                         vertices.append([-1, 0, 1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -662,9 +635,7 @@ def create_mesh():
                         vertices.append([0, -1, -1])
                         vertices.append([1, -1, 0])
                         vertices.append([1, 0, -1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -696,9 +667,7 @@ def create_mesh():
                         vertices.append([1, -1, 0])
                         vertices.append([1, 1, 0])
                         vertices.append([0, 1, -1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -713,7 +682,7 @@ def create_mesh():
                         normals.append(norms['top'])
                         break
                     elif h == 172 or ih == 172:
-                        # Wikipeida last case 14 (coded on pgm 053)
+                        # Wikipeida <last case> 14 (coded on pgm 053)
                         # Tested on pgm: pgm 172, pgm 53, pgm 202
                         # First Triangle:
                         vertices.append([1, -1, 0])
@@ -731,9 +700,7 @@ def create_mesh():
                         vertices.append([0, -1, 1])
                         vertices.append([-1, 0, 1])
                         vertices.append([-1, 0, -1])
-                        vertices = np.array(vertices)
-                        vertices = vertices.dot(r)
-                        vertices = (vertices + 1) / 2
+                        rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -750,8 +717,14 @@ def create_mesh():
                     else:
                         print('Failed to match %d' % h0)
                         continue
-                print('rotation', r)
-                normals = np.array(normals)
+                if rotation is not None:
+                    print('rotation', rotation)
+                    vertices = np.array(vertices)
+                    vertices = vertices.dot(rotation)
+                    vertices = (vertices + 1) / 2
+                    vertices = vertices.tolist()
+    vertices = np.array(vertices)
+    normals = np.array(normals)
 
 
 def main():
