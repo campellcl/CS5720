@@ -715,7 +715,7 @@ def create_mesh():
                         normals.append(norms['top'])
                         break
                     else:
-                        print('Failed to match %d' % h0)
+                        # print('Failed to match %d' % h0)
                         continue
                 if rotation is not None:
                     print('rotation', rotation)
@@ -815,3 +815,4 @@ def display():
 
 if __name__ == '__main__':
     main()
+    display()
