@@ -85,11 +85,46 @@ def read_reflectivity(file_name):
     return sweeps, metadata
 
 
+def plot_circular_sweep(sweep, sweep_num, colors):
+    x_coords = []
+    y_coords = []
+    values = []
+    for i, distances in enumerate(sweep):
+        for angle, distance in enumerate(distances):
+            # print(sweep[i][angle])
+            # TODO: Convert from degrees to radians before using np.cos and np.sin
+            x = np.cos(angle)*distance
+            y = np.sin(angle)*distance
+            x_coords.append(x)
+            y_coords.append(y)
+            values.append(sweep[i][angle])
+    plt.clf()
+    plt.scatter(x_coords, y_coords, c=values)
+    plt.title('Sweep %d' % sweep_num)
+    plt.show()
+
+
+def plot_circular_sweeps(sweeps, metadata):
+    x_coords = []
+    y_coords = []
+    for n, sweep in enumerate(sweeps):
+        for i, distances in enumerate(sweep):
+            for angle, distance in enumerate(distances):
+                x = np.cos(angle)*distance
+                y = np.sin(angle)*distance
+                x_coords.append(x)
+                y_coords.append(y)
+    plt.clf()
+    plt.scatter(x_coords, y_coords)
+    plt.title('All Sweeps')
+    # plt.colorbar()
+    plt.show()
+
+
 def main():
     index = 121
     file_name = '../data/weather/%d.RFLCTVTY' % index
     sweeps, metadata = read_reflectivity(file_name)
-
     sweep = 0
     plt.clf()
     plt.imshow(sweeps[sweep])
@@ -97,6 +132,11 @@ def main():
     plt.xlabel('angle')
     plt.ylabel('distance')
     plt.show()
+    # map values to colors:
+    colors = sweeps[0].reshape((-1, ))
+    # Plot one sweep:
+    plot_circular_sweep(sweep=sweeps[0], sweep_num=0, colors=colors)
+    # plot_circular_sweeps(sweeps, metadata)
 
     # Goal: To create a scatter plot using only angle and distance/radius.
     # How to turn angle and distance into an x and y value?
