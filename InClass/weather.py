@@ -93,8 +93,8 @@ def plot_circular_sweep(sweep, sweep_num, colors):
         for angle, distance in enumerate(distances):
             # print(sweep[i][angle])
             # TODO: Convert from degrees to radians before using np.cos and np.sin
-            x = np.cos(angle)*distance
-            y = np.sin(angle)*distance
+            x = np.cos(np.radians(angle))*i
+            y = np.sin(np.radians(angle))*i
             x_coords.append(x)
             y_coords.append(y)
             values.append(sweep[i][angle])
@@ -112,8 +112,8 @@ def plot_circular_sweeps(sweeps, metadata):
             # TODO: Should really be using the azumith in the metadata for angle.
             for angle, distance in enumerate(distances):
                 # TODO: convert to degress before using np.sin and np.cos.
-                x = np.cos(angle)*distance
-                y = np.sin(angle)*distance
+                x = np.cos(np.radians(angle))*distance
+                y = np.sin(np.radians(angle))*distance
                 x_coords.append(x)
                 y_coords.append(y)
     plt.clf()
