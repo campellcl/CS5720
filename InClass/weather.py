@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+from mpl_toolkits.mplot3d import Axes3D
+import copy
 
 def read_reflectivity(file_name):
     sweeps = []
@@ -85,7 +86,7 @@ def read_reflectivity(file_name):
     return sweeps, metadata
 
 
-def plot_circular_sweep(sweep, sweep_num, colors):
+def plot_circular_sweep_2d(sweep, sweep_num, colors):
     x_coords = []
     y_coords = []
     values = []
@@ -101,6 +102,7 @@ def plot_circular_sweep(sweep, sweep_num, colors):
     plt.clf()
     plt.scatter(x_coords, y_coords, c=values)
     plt.title('Sweep %d' % sweep_num)
+    plt.colorbar()
     plt.show()
 
 
@@ -123,21 +125,58 @@ def plot_circular_sweeps(sweeps, metadata):
     plt.show()
 
 
+def plot_circular_sweep_3d(sweep, metadata, sweep_num, threshold=10):
+    x_coords = []
+    y_coords = []
+    z_coords = []
+    values = []
+    for i, distance in enumerate(sweep):
+        for angle, distance in enumerate(distance):
+            # height = metadata['sweep']['height']
+            elevation = metadata['radials'][angle]['elevation']
+            x = np.cos(np.radians(angle))*i
+            y = np.sin(np.radians(angle))*i
+            z = i * np.sin(np.radians(elevation))
+            x_coords.append(x)
+            y_coords.append(y)
+            z_coords.append(z)
+            values.append(sweep[i][angle])
+    # plt.clf()
+    values_thresholded = []
+    x_coords_thresholded = []
+    y_coords_thresholded = []
+    z_coords_thresholded = []
+    for i, (x, y, z) in enumerate(zip(x_coords, y_coords, z_coords)):
+        if values[i] > threshold:
+            values_thresholded.append(values[i])
+            x_coords_thresholded.append(x)
+            y_coords_thresholded.append(y)
+            z_coords_thresholded.append(z)
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(x_coords_thresholded, y_coords_thresholded, z_coords_thresholded, c=values_thresholded)
+    plt.title('Sweep %d 3D' % sweep_num)
+    # plt.colorbar()
+    plt.show()
+
 def main():
     index = 121
     file_name = '../data/weather/%d.RFLCTVTY' % index
     sweeps, metadata = read_reflectivity(file_name)
     sweep = 0
-    plt.clf()
-    plt.imshow(sweeps[sweep])
-    plt.colorbar()
-    plt.xlabel('angle')
-    plt.ylabel('distance')
-    plt.show()
+    # plt.clf()
+    # plt.imshow(sweeps[sweep])
+    # plt.colorbar()
+    # plt.xlabel('angle')
+    # plt.ylabel('distance')
+    # plt.show()
     # map values to colors:
     colors = sweeps[0].reshape((-1, ))
-    # Plot one sweep:
-    plot_circular_sweep(sweep=sweeps[0], sweep_num=0, colors=colors)
+    # Plot one sweep in 2d:
+    # plot_circular_sweep_2d(sweep=sweeps[0], sweep_num=0, colors=colors)
+    # Plot one sweep in 3d:
+    plot_circular_sweep_3d(sweep=sweeps[0], metadata=metadata[0], sweep_num=0)
+    # plt.colorbar(mappable=colors)
     # plot_circular_sweeps(sweeps, metadata)
 
     # Goal: To create a scatter plot using only angle and distance/radius.
