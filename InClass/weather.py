@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import copy
+from InClass.open_gl_framework import OpenGLFramework
+
 
 def read_reflectivity(file_name):
     sweeps = []
@@ -160,6 +162,26 @@ def plot_circular_sweep_3d(sweep, metadata, sweep_num, threshold=10):
     # fig.colorbar(im, cax=np.arange(start=np.min(values_thresholded, axis=0), stop=np.max(values_thresholded, axis=0)), orientation='horizontal')
     plt.show()
 
+
+def get_x_y_z_values_from_sweep(sweep, metadata):
+    x_coords = []
+    y_coords = []
+    z_coords = []
+    values = []
+    for i, distance in enumerate(sweep):
+        for angle, distance in enumerate(distance):
+            # height = metadata['sweep']['height']
+            elevation = metadata['radials'][angle]['elevation']
+            x = np.cos(np.radians(angle))*i
+            y = np.sin(np.radians(angle))*i
+            z = i * np.sin(np.radians(elevation))
+            x_coords.append(x)
+            y_coords.append(y)
+            z_coords.append(z)
+            values.append(sweep[i][angle])
+    return x_coords, y_coords, z_coords, values
+
+
 def main():
     index = 121
     file_name = '../data/weather/%d.RFLCTVTY' % index
@@ -176,7 +198,10 @@ def main():
     # Plot one sweep in 2d:
     # plot_circular_sweep_2d(sweep=sweeps[0], sweep_num=0, colors=colors)
     # Plot one sweep in 3d:
-    plot_circular_sweep_3d(sweep=sweeps[0], metadata=metadata[0], sweep_num=0)
+    # plot_circular_sweep_3d(sweep=sweeps[0], metadata=metadata[0], sweep_num=0)
+    x, y, z, values = get_x_y_z_values_from_sweep(sweeps[0], metadata[0])
+    OpenGLFramework(x=x, y=y, z=z, values=values)
+
     # plt.colorbar(mappable=colors)
     # plot_circular_sweeps(sweeps, metadata)
 
