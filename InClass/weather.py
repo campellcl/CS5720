@@ -154,9 +154,10 @@ def plot_circular_sweep_3d(sweep, metadata, sweep_num, threshold=10):
             z_coords_thresholded.append(z)
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(x_coords_thresholded, y_coords_thresholded, z_coords_thresholded, c=values_thresholded)
+    im = ax.scatter(x_coords_thresholded, y_coords_thresholded, z_coords_thresholded, c=values_thresholded)
     plt.title('Sweep %d 3D' % sweep_num)
-    # plt.colorbar()
+    plt.colorbar(mappable=im, ax=ax)
+    # fig.colorbar(im, cax=np.arange(start=np.min(values_thresholded, axis=0), stop=np.max(values_thresholded, axis=0)), orientation='horizontal')
     plt.show()
 
 def main():
