@@ -335,11 +335,19 @@ def create_mesh():
                         break
                     elif h == 1 or ih == 1:
                         # wikipedia case 1
+                        verts = []
                         # tested on: pmg 001, pgm 002, pgm 004, pgm 008, pgm 016, pgm 032, pgm 064, pgm 128
-                        vertices.append([-1.0, 0.0, -1.0])
-                        vertices.append([0.0, -1.0, -1.0])
-                        vertices.append([-1.0, -1.0, 0.0])
-                        rotation = r
+                        verts.append([-1.0, 0.0, -1.0])
+                        verts.append([0.0, -1.0, -1.0])
+                        verts.append([-1.0, -1.0, 0.0])
+                        verts = np.array(verts)
+                        verts = verts.dot(r)
+                        verts = (verts + 1) / 2
+                        verts[:, 0] = verts[:, 0] + i
+                        verts[:, 1] = verts[:, 1] + j
+                        verts[:, 2] = verts[:, 2] + k
+                        for vertex in verts:
+                            vertices.append(vertex)
                         # TODO: Fix the norms.
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -347,15 +355,23 @@ def create_mesh():
                         break
                     elif h == 3 or ih ==3:
                         # wikipedia case 2
+                        verts = []
                         # First triangle:
-                        vertices.append([-1, 0, -1])
-                        vertices.append([0, -1, 1])
-                        vertices.append([-1, 0, 1])
+                        verts.append([-1, 0, -1])
+                        verts.append([0, -1, 1])
+                        verts.append([-1, 0, 1])
                         # Second triangle:
-                        vertices.append([-1, 0, -1])
-                        vertices.append([0, -1, 1])
-                        vertices.append([0, -1, -1])
-                        rotation = r
+                        verts.append([-1, 0, -1])
+                        verts.append([0, -1, 1])
+                        verts.append([0, -1, -1])
+                        verts = np.array(verts)
+                        verts = verts.dot(r)
+                        verts = (verts + 1) / 2
+                        verts[:, 0] = verts[:, 0] + i
+                        verts[:, 1] = verts[:, 1] + j
+                        verts[:, 2] = verts[:, 2] + k
+                        for vertex in verts:
+                            vertices.append(vertex)
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -365,15 +381,23 @@ def create_mesh():
                         break
                     elif h == 6 or ih == 6:
                         # wikipedia case 3
+                        verts = []
                         # First triangle:
-                        vertices.append([-1, 0, 1])
-                        vertices.append([-1, -1, 0])
-                        vertices.append([0, -1, 1])
+                        verts.append([-1, 0, 1])
+                        verts.append([-1, -1, 0])
+                        verts.append([0, -1, 1])
                         # Second triangle:
-                        vertices.append([-1, 0, -1])
-                        vertices.append([-1, 1, 0])
-                        vertices.append([0, 1, -1])
-                        rotation = r
+                        verts.append([-1, 0, -1])
+                        verts.append([-1, 1, 0])
+                        verts.append([0, 1, -1])
+                        verts = np.array(verts)
+                        verts = verts.dot(r)
+                        verts = (verts + 1) / 2
+                        verts[:, 0] = verts[:, 0] + i
+                        verts[:, 1] = verts[:, 1] + j
+                        verts[:, 2] = verts[:, 2] + k
+                        for vertex in verts:
+                            vertices.append(vertex)
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -384,19 +408,27 @@ def create_mesh():
                     elif h == 19 or ih == 19:
                         # Wikipedia case 4
                         # tested on: pgm 019, pgm 076
+                        verts = []
                         # First triangle:
-                        vertices.append([-1, 0, -1])
-                        vertices.append([-1, 0, 1])
-                        vertices.append([1, 0, -1])
+                        verts.append([-1, 0, -1])
+                        verts.append([-1, 0, 1])
+                        verts.append([1, 0, -1])
                         # Second triangle:
-                        vertices.append([-1, 0, 1])
-                        vertices.append([1, 0, -1])
-                        vertices.append([1, -1, 0])
+                        verts.append([-1, 0, 1])
+                        verts.append([1, 0, -1])
+                        verts.append([1, -1, 0])
                         # Third triangle:
-                        vertices.append([-1, 0, 1])
-                        vertices.append([1, -1, 0])
-                        vertices.append([0, -1, 1])
-                        rotation = r
+                        verts.append([-1, 0, 1])
+                        verts.append([1, -1, 0])
+                        verts.append([0, -1, 1])
+                        verts = np.array(verts)
+                        verts = verts.dot(r)
+                        verts = (verts + 1) / 2
+                        verts[:, 0] = verts[:, 0] + i
+                        verts[:, 1] = verts[:, 1] + j
+                        verts[:, 2] = verts[:, 2] + k
+                        for vertex in verts:
+                            vertices.append(vertex)
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -409,15 +441,23 @@ def create_mesh():
                         break
                     elif h == 15 or ih == 15:
                         # wikipedia case 5
+                        verts = []
                         # First triangle:
-                        vertices.append([0, -1, 1])
-                        vertices.append([0, 1, 1])
-                        vertices.append([0, -1, -1])
+                        verts.append([0, -1, 1])
+                        verts.append([0, 1, 1])
+                        verts.append([0, -1, -1])
                         # Second triangle:
-                        vertices.append([0, -1, -1])
-                        vertices.append([0, 1, -1])
-                        vertices.append([0, 1, 1])
-                        rotation = r
+                        verts.append([0, -1, -1])
+                        verts.append([0, 1, -1])
+                        verts.append([0, 1, 1])
+                        verts = np.array(verts)
+                        verts = verts.dot(r)
+                        verts = (verts + 1) / 2
+                        verts[:, 0] = verts[:, 0] + i
+                        verts[:, 1] = verts[:, 1] + j
+                        verts[:, 2] = verts[:, 2] + k
+                        for vertex in verts:
+                            vertices.append(vertex)
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -428,23 +468,31 @@ def create_mesh():
                     elif h == 147 or ih == 147:
                         # wikipedia case 6
                         # tested on: pgm 147
+                        verts = []
                         # First triangle:
-                        vertices.append([-1, 0, -1])
-                        vertices.append([-1, 0, 1])
-                        vertices.append([1, 0, -1])
+                        verts.append([-1, 0, -1])
+                        verts.append([-1, 0, 1])
+                        verts.append([1, 0, -1])
                         # Second triangle:
-                        vertices.append([-1, 0, 1])
-                        vertices.append([0, 1, 1])
-                        vertices.append([1, 1, 0])
+                        verts.append([-1, 0, 1])
+                        verts.append([0, 1, 1])
+                        verts.append([1, 1, 0])
                         # Third triangle:
-                        vertices.append([-1, 0, 1])
-                        vertices.append([1, 1, 0])
-                        vertices.append([1, 0, -1])
+                        verts.append([-1, 0, 1])
+                        verts.append([1, 1, 0])
+                        verts.append([1, 0, -1])
                         # Fourth triangle:
-                        vertices.append([0, -1, 1])
-                        vertices.append([1, -1, 0])
-                        vertices.append([1, 0, 1])
-                        rotation = r
+                        verts.append([0, -1, 1])
+                        verts.append([1, -1, 0])
+                        verts.append([1, 0, 1])
+                        verts = np.array(verts)
+                        verts = verts.dot(r)
+                        verts = (verts + 1) / 2
+                        verts[:, 0] = verts[:, 0] + i
+                        verts[:, 1] = verts[:, 1] + j
+                        verts[:, 2] = verts[:, 2] + k
+                        for vertex in verts:
+                            vertices.append(vertex)
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -463,32 +511,40 @@ def create_mesh():
                         #   the same place when the vertices are off? How to distinguish between rotation?
                         # wikipedia case 7
                         # tested on: pgm 105, pgm 150
+                        verts = []
                         # First Triangle:
-                        vertices.append([-1, 1, 0])
-                        vertices.append([-1, 0, -1])
-                        vertices.append([0, 1, -1])
-                        # vertices.append([-1, 0, -1])
-                        # vertices.append([-1, -1, 0])
-                        # vertices.append([0, -1, -1])
+                        verts.append([-1, 1, 0])
+                        verts.append([-1, 0, -1])
+                        verts.append([0, 1, -1])
+                        # verts.append([-1, 0, -1])
+                        # verts.append([-1, -1, 0])
+                        # verts.append([0, -1, -1])
                         # Second Triangle:
-                        vertices.append([1, 1, 0])
-                        vertices.append([0, 1, 1])
-                        vertices.append([1, 0, 1])
+                        verts.append([1, 1, 0])
+                        verts.append([0, 1, 1])
+                        verts.append([1, 0, 1])
                         # Third Triangle:
-                        vertices.append([0, -1, -1])
-                        vertices.append([1, -1, 0])
-                        vertices.append([1, 0, -1])
-                        # vertices.append([-1, -1, 0])
-                        # vertices.append([0, -1, -1])
-                        # vertices.append([-1, 0, -1])
+                        verts.append([0, -1, -1])
+                        verts.append([1, -1, 0])
+                        verts.append([1, 0, -1])
+                        # verts.append([-1, -1, 0])
+                        # verts.append([0, -1, -1])
+                        # verts.append([-1, 0, -1])
                         # Fourth Triangle:
-                        vertices.append([-1, -1, 0])
-                        vertices.append([-1, 0, 1])
-                        vertices.append([0, -1, 1])
-                        # vertices.append([1, -1, 0])
-                        # vertices.append([0, -1, 1])
-                        # vertices.append([1, 0, 1])
-                        rotation = r
+                        verts.append([-1, -1, 0])
+                        verts.append([-1, 0, 1])
+                        verts.append([0, -1, 1])
+                        # verts.append([1, -1, 0])
+                        # verts.append([0, -1, 1])
+                        # verts.append([1, 0, 1])
+                        verts = np.array(verts)
+                        verts = verts.dot(r)
+                        verts = (verts + 1) / 2
+                        verts[:, 0] = verts[:, 0] + i
+                        verts[:, 1] = verts[:, 1] + j
+                        verts[:, 2] = verts[:, 2] + k
+                        for vertex in verts:
+                            vertices.append(vertex)
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -506,23 +562,31 @@ def create_mesh():
                         # Wikipedia case 8
                         # Tested on: pgm 43, pgm 232, pgm 212
                         # NOTE: PGM 232 may not be displaying correct with rotation; hard to tell without full controls.
+                        verts = []
                         # First Triangle:
-                        vertices.append([0, -1, -1])
-                        vertices.append([1, -1, 0])
-                        vertices.append([-1, 0, -1])
+                        verts.append([0, -1, -1])
+                        verts.append([1, -1, 0])
+                        verts.append([-1, 0, -1])
                         # Second Triangle:
-                        vertices.append([1, -1, 0])
-                        vertices.append([-1, 0, -1])
-                        vertices.append([-1, 1, 0])
+                        verts.append([1, -1, 0])
+                        verts.append([-1, 0, -1])
+                        verts.append([-1, 1, 0])
                         # Third Triangle:
-                        vertices.append([1, -1, 0])
-                        vertices.append([-1, 1, 0])
-                        vertices.append([1, 0, 1])
+                        verts.append([1, -1, 0])
+                        verts.append([-1, 1, 0])
+                        verts.append([1, 0, 1])
                         # Fourth Triangle:
-                        vertices.append([1, 0, 1])
-                        vertices.append([-1, 1, 0])
-                        vertices.append([0, 1, 1])
-                        rotation = r
+                        verts.append([1, 0, 1])
+                        verts.append([-1, 1, 0])
+                        verts.append([0, 1, 1])
+                        verts = np.array(verts)
+                        verts = verts.dot(r)
+                        verts = (verts + 1) / 2
+                        verts[:, 0] = verts[:, 0] + i
+                        verts[:, 1] = verts[:, 1] + j
+                        verts[:, 2] = verts[:, 2] + k
+                        for vertex in verts:
+                            vertices.append(vertex)
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
