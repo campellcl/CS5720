@@ -322,7 +322,7 @@ def create_mesh():
                 # Rotate cube 24 different ways to see if any cases match:
                 rotation = None
                 for r_num, r in enumerate(rotations):
-                    print('\tr: %s' % rotation_repr[r_num])
+                    # print('\tr: %s' % rotation_repr[r_num])
                     # h is the cube after applying a rotation:
                     h = rotate(r, h0)
                     # print('\th: %d' % h)
@@ -623,19 +623,27 @@ def create_mesh():
                     elif h == 22 or ih == 22:
                         # Wikipedia case 12 (coded on pgm 104)
                         # Tested on: pgm 104, pgm 022
+                        verts = []
                         # First Triangle:
-                        vertices.append([-1, -1, 0])
-                        vertices.append([0, -1, 1])
-                        vertices.append([-1, 0, 1])
+                        verts.append([-1, -1, 0])
+                        verts.append([0, -1, 1])
+                        verts.append([-1, 0, 1])
                         # Second Triangle:
-                        vertices.append([0, 1, -1])
-                        vertices.append([-1, 1, 0])
-                        vertices.append([-1, 0, -1])
+                        verts.append([0, 1, -1])
+                        verts.append([-1, 1, 0])
+                        verts.append([-1, 0, -1])
                         # Third Triangle:
-                        vertices.append([0, -1, -1])
-                        vertices.append([1, -1, 0])
-                        vertices.append([1, 0, -1])
-                        rotation = r
+                        verts.append([0, -1, -1])
+                        verts.append([1, -1, 0])
+                        verts.append([1, 0, -1])
+                        verts = np.array(verts)
+                        verts = verts.dot(r)
+                        verts = (verts + 1) / 2
+                        verts[:, 0] = verts[:, 0] + i
+                        verts[:, 1] = verts[:, 1] + j
+                        verts[:, 2] = verts[:, 2] + k
+                        for vertex in verts:
+                            vertices.append(vertex)
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -651,23 +659,31 @@ def create_mesh():
                         #   the same place when the vertices are off? How to distinguish between rotation?
                         # Wikipedia case 13 (coded on pgm 090)
                         # Tested on: pgm 090, pgm 165
+                        verts = []
                         # First Triangle:
-                        vertices.append([-1, 1, 0])
-                        vertices.append([0, -1, 1])
-                        vertices.append([-1, -1, 0])
+                        verts.append([-1, 1, 0])
+                        verts.append([0, -1, 1])
+                        verts.append([-1, -1, 0])
                         # Second Triangle:
-                        vertices.append([0, -1, 1])
-                        vertices.append([-1, 1, 0])
-                        vertices.append([0, 1, 1])
+                        verts.append([0, -1, 1])
+                        verts.append([-1, 1, 0])
+                        verts.append([0, 1, 1])
                         # Third Triangle:
-                        vertices.append([0, -1, -1])
-                        vertices.append([1, -1, 0])
-                        vertices.append([0, 1, -1])
+                        verts.append([0, -1, -1])
+                        verts.append([1, -1, 0])
+                        verts.append([0, 1, -1])
                         # Fourth Triangle:
-                        vertices.append([1, -1, 0])
-                        vertices.append([1, 1, 0])
-                        vertices.append([0, 1, -1])
-                        rotation = r
+                        verts.append([1, -1, 0])
+                        verts.append([1, 1, 0])
+                        verts.append([0, 1, -1])
+                        verts = np.array(verts)
+                        verts = verts.dot(r)
+                        verts = (verts + 1) / 2
+                        verts[:, 0] = verts[:, 0] + i
+                        verts[:, 1] = verts[:, 1] + j
+                        verts[:, 2] = verts[:, 2] + k
+                        for vertex in verts:
+                            vertices.append(vertex)
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -685,22 +701,31 @@ def create_mesh():
                         # Wikipeida <last case> 14 (coded on pgm 053)
                         # Tested on pgm: pgm 172, pgm 53, pgm 202
                         # First Triangle:
-                        vertices.append([1, -1, 0])
-                        vertices.append([1, 1, 0])
-                        vertices.append([0, -1, 1])
+                        verts = []
+                        verts.append([1, -1, 0])
+                        verts.append([1, 1, 0])
+                        verts.append([0, -1, 1])
                         # Second Triangle:
-                        vertices.append([1, 1, 0])
-                        vertices.append([0, 1, -1])
-                        vertices.append([-1, 0, -1])
+                        verts.append([1, 1, 0])
+                        verts.append([0, 1, -1])
+                        verts.append([-1, 0, -1])
                         # Third Triangle:
-                        vertices.append([1, 1, 0])
-                        vertices.append([0, -1, 1])
-                        vertices.append([-1, 0, -1])
+                        verts.append([1, 1, 0])
+                        verts.append([0, -1, 1])
+                        verts.append([-1, 0, -1])
                         # Fourth Traingle:
-                        vertices.append([0, -1, 1])
-                        vertices.append([-1, 0, 1])
-                        vertices.append([-1, 0, -1])
-                        rotation = r
+                        verts.append([0, -1, 1])
+                        verts.append([-1, 0, 1])
+                        verts.append([-1, 0, -1])
+                        verts = np.array(verts)
+                        verts = verts.dot(r)
+                        verts = (verts + 1) / 2
+                        verts[:, 0] = verts[:, 0] + i
+                        verts[:, 1] = verts[:, 1] + j
+                        verts[:, 2] = verts[:, 2] + k
+                        for vertex in verts:
+                            vertices.append(vertex)
+                        # rotation = r
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
@@ -713,16 +738,20 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
+                        # vertices = np.array(vertices)
+                        # vertices = vertices.dot(rotation)
+                        # vertices = (vertices + 1) / 2
+                        # vertices = vertices.tolist()
                         break
                     else:
                         # print('Failed to match %d' % h0)
                         continue
-                if rotation is not None:
-                    print('rotation', rotation)
-                    vertices = np.array(vertices)
-                    vertices = vertices.dot(rotation)
-                    vertices = (vertices + 1) / 2
-                    vertices = vertices.tolist()
+                # if rotation is not None:
+                #     # print('rotation', rotation)
+                #     vertices = np.array(vertices)
+                #     vertices = vertices.dot(rotation)
+                #     vertices = (vertices + 1) / 2
+                #     vertices = vertices.tolist()
     vertices = np.array(vertices)
     normals = np.array(normals)
 
