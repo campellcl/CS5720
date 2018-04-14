@@ -407,20 +407,20 @@ def create_mesh():
                         break
                     elif h == 7 or ih == 7:
                         # Wikipedia case 4
-                        # tested on: pgm 7, pgm 019, pgm 076,
+                        # tested on: pgm 007, pgm 019, pgm 076
                         verts = []
                         # First triangle:
-                        verts.append([-1, 0, -1])
-                        verts.append([-1, 0, 1])
-                        verts.append([1, 0, -1])
-                        # Second triangle:
-                        verts.append([-1, 0, 1])
-                        verts.append([1, 0, -1])
-                        verts.append([1, -1, 0])
-                        # Third triangle:
-                        verts.append([-1, 0, 1])
-                        verts.append([1, -1, 0])
+                        verts.append([0, -1, -1])
                         verts.append([0, -1, 1])
+                        verts.append([0, 1, -1])
+                        # Second triangle:
+                        verts.append([0, -1, 1])
+                        verts.append([0, 1, -1])
+                        verts.append([-1, 0, 1])
+                        # Third triangle:
+                        verts.append([0, 1, -1])
+                        verts.append([-1, 0, 1])
+                        verts.append([-1, 1, 0])
                         verts = np.array(verts)
                         verts = verts.dot(r)
                         verts = (verts + 1) / 2
