@@ -467,9 +467,11 @@ def create_mesh():
                         break
                     elif h == 147 or ih == 147:
                         # wikipedia case 6
-                        # tested on: pgm 147
+                        # TODO: Re-write for case 99 as base instead of 147 (pgm 108 failing)
+                        # tested on: pgm 147, pgm 099, pgm 108
                         verts = []
                         # First triangle:
+                        # verts.append([-1, -1, -1])
                         verts.append([-1, 0, -1])
                         verts.append([-1, 0, 1])
                         verts.append([1, 0, -1])
