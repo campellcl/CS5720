@@ -353,7 +353,7 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
-                    elif h == 3 or ih ==3:
+                    elif h == 3 or ih == 3:
                         # wikipedia case 2
                         verts = []
                         # First triangle:
@@ -405,9 +405,9 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         break
-                    elif h == 19 or ih == 19:
+                    elif h == 7 or ih == 7:
                         # Wikipedia case 4
-                        # tested on: pgm 019, pgm 076
+                        # tested on: pgm 7, pgm 019, pgm 076,
                         verts = []
                         # First triangle:
                         verts.append([-1, 0, -1])
