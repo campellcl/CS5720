@@ -181,83 +181,113 @@ def get_x_y_z_values_from_sweep(sweep, metadata):
     return x_coords, y_coords, z_coords, values
 
 
-# def marching_squares_contour(sweep, sweep_num):
-#     """
-#     marching_squares_contour: Divides the provided sweep data into contour cells and populates with contour lines using
-#         the marching squares algorithm.
-#     :param sweep: A single doppler radar sweep from a .RFLCTVTY file.
-#     :return contours: A list of lists (2d array) containing the start and end points for each contour line segment.
-#     """
-#     lookup_table = {
-#         '0000': None,
-#         '0001': [(0, 0.5), (0.5, 1.0)],
-#         '0010': [(0.5, 1), (1.0, 0.5)],
-#         '0011': [(0, 0.5), (1.0, 0.5)],
-#         '0100': [(0.5, 0), (1.0, 0.5)],
-#         '0101': [(0, 0.5), (0.5, 0), (0.5, 1.0), (1.0, 0.5)],
-#         '0110': [(0.5, 1.0), (0.5, 0)],
-#         '0111': [(0, 0.5), (0.5, 0)],
-#         '1000': [(0, 0.5), (0.5, 0)],
-#         '1001': [(0.5, 1.0), (0.5, 0)],
-#         '1010': [(0, 0.5), (0.5, 1.0), (0.5, 0), (1.0, 0.5)],
-#         '1011': [(0.5, 0), (1.0, 0.5)],
-#         '1100': [(0, 0.5), (1.0, 0.5)],
-#         '1101': [(0.5, 1.0), (1.0, 0.5)],
-#         '1110': [(0, 0.5), (0.5, 1.0)],
-#         '1111': None
-#     }
-#
-#     x_coords = []
-#     y_coords = []
-#     values = []
-#     for i, distances in enumerate(sweep):
-#         for angle, distance in enumerate(distances):
-#             # print(sweep[i][angle])
-#             # TODO: Convert from degrees to radians before using np.cos and np.sin
-#             x = np.cos(np.radians(angle))*i
-#             y = np.sin(np.radians(angle))*i
-#             x_coords.append(x)
-#             y_coords.append(y)
-#             values.append(sweep[i][angle])
-#     plt.clf()
-#     plt.scatter(x_coords, y_coords, c=values)
-#     plt.title('Sweep %d' % sweep_num)
-#     plt.colorbar()
-#
-#
-#
-#     plt.show()
-#
-#
-#
-#     contours = []
-#     contour_cells = []
-#     for i in range(len(sweep) - 1):
-#         contour_cell_row = []
-#         for j in range(len(sweep[i]) - 1):
-#             contour_cell = [(i, j), (i, j+1), (i+1, j+1), (i+1, j)]
-#             contour_cell_row.append(contour_cell)
-#             # Create a binary index based on the values in the cell:
-#             cell_bin_index = ''.join('1' if sweep[x, y] > 0 else '0' for x, y in contour_cell)
-#             # Perform a lookup using the binary index:
-#             contour_line_segments = lookup_table[cell_bin_index]
-#             contour_segment = []
-#             if contour_line_segments is not None:
-#                 # If there are two lines present...
-#                 if len(contour_line_segments) == 4:
-#                     for n, (x, y) in enumerate(contour_line_segments):
-#                         contour_segment.append((x+j, y+i))
-#                         if n == 1:
-#                             contours.append(contour_segment)
-#                             contour_segment = []
-#                         elif n == 3:
-#                             contours.append(contour_segment)
-#                 else:
-#                     for n, (x, y) in enumerate(contour_line_segments):
-#                         contour_segment.append((x+j, y+i))
-#                     contours.append(contour_segment)
-#         contour_cells.append(contour_cell_row)
-#     return contours
+def marching_squares_contour(sweep, threshold, sweep_num):
+    """
+    marching_squares_contour: Divides the provided sweep data into contour cells and populates with contour lines using
+        the marching squares algorithm.
+    :param sweep: A single doppler radar sweep from a .RFLCTVTY file.
+    :return contours: A list of lists (2d array) containing the start and end points for each contour line segment.
+    """
+    lookup_table = {
+        '0000': None,
+        '0001': [(0, 0.5), (0.5, 1.0)],
+        '0010': [(0.5, 1), (1.0, 0.5)],
+        '0011': [(0, 0.5), (1.0, 0.5)],
+        '0100': [(0.5, 0), (1.0, 0.5)],
+        '0101': [(0, 0.5), (0.5, 0), (0.5, 1.0), (1.0, 0.5)],
+        '0110': [(0.5, 1.0), (0.5, 0)],
+        '0111': [(0, 0.5), (0.5, 0)],
+        '1000': [(0, 0.5), (0.5, 0)],
+        '1001': [(0.5, 1.0), (0.5, 0)],
+        '1010': [(0, 0.5), (0.5, 1.0), (0.5, 0), (1.0, 0.5)],
+        '1011': [(0.5, 0), (1.0, 0.5)],
+        '1100': [(0, 0.5), (1.0, 0.5)],
+        '1101': [(0.5, 1.0), (1.0, 0.5)],
+        '1110': [(0, 0.5), (0.5, 1.0)],
+        '1111': None
+    }
+    x_coords = []
+    y_coords = []
+    values = []
+    contour_lines = []
+    for i, distances in enumerate(sweep):
+        for angle, distance in enumerate(distances):
+            # print(sweep[i][angle])
+            # x = np.cos(np.radians(angle))*i
+            # y = np.sin(np.radians(angle))*i
+            x_coords.append(np.sin(np.radians(angle))*i)
+            y_coords.append(np.cos(np.radians(angle))*i)
+            x = np.sin(np.radians(angle))*i
+            y = np.cos(np.radians(angle))*i
+            values.append(sweep[i][angle])
+            # Check bounds:
+            # if (x + 1 < len(sweep)) and (y + 1 < len(sweep)):
+            #     case = 0
+            #     if values[x][y] > threshold:
+            #         case += 1
+            #     elif values[x][y+1] > threshold:
+            #         case += 2
+            #     elif values[x+1][y] > threshold:
+            #         case += 4
+            #     elif values[x+1][y+1] > threshold:
+            #         case += 8
+            if i+1 < len(sweep):
+                if angle+1 < len(distances):
+                    contour_cell = [(i, angle), (i, angle+1), (i+1, angle+1), (i+1, angle)]
+                    cell_bin_index = ''.join('1' if sweep[x, y] > threshold else '0' for x, y in contour_cell)
+                    contour_line_segments = lookup_table[cell_bin_index]
+                    contour_segment = []
+                    if contour_line_segments is not None:
+                        # If there are two lines present...
+                        if len(contour_line_segments) == 4:
+                            for n, (cx, cy) in enumerate(contour_line_segments):
+                                contour_segment.append((cx+y, cy+x))
+                                if n == 1:
+                                    contour_lines.append(contour_segment)
+                                    contour_segment = []
+                                elif n == 3:
+                                    contour_lines.append(contour_segment)
+                        else:
+                            for n, (cx, cy) in enumerate(contour_line_segments):
+                                contour_segment.append((cx+y, cy+x))
+                                contour_lines.append(contour_segment)
+                            contour_lines.append(contour_segment)
+                    # if cell_bin_index != '0000' and cell_bin_index != '1111':
+                    #     contour_lines.append(y+lookup_y, x+lookup_x for lookup_y, lookup_x in lookup_table[cell_bin_index)
+                    #     contour_lines.append([y+lookup_table[cell_bin_index], x+lookup_table[cell_bin_index]])
+    # plt.clf()
+    # plt.scatter(x_coords, y_coords, c=values)
+    # plt.title('Sweep %d' % sweep_num)
+    # plt.colorbar()
+    # plt.show()
+    # contours = []
+    # contour_cells = []
+    # for i in range(len(sweep) - 1):
+    #     contour_cell_row = []
+    #     for j in range(len(sweep[i]) - 1):
+    #         contour_cell = [(i, j), (i, j+1), (i+1, j+1), (i+1, j)]
+    #         contour_cell_row.append(contour_cell)
+    #         # Create a binary index based on the values in the cell:
+    #         cell_bin_index = ''.join('1' if sweep[x, y] > 0 else '0' for x, y in contour_cell)
+    #         # Perform a lookup using the binary index:
+    #         contour_line_segments = lookup_table[cell_bin_index]
+    #         contour_segment = []
+    #         if contour_line_segments is not None:
+    #             # If there are two lines present...
+    #             if len(contour_line_segments) == 4:
+    #                 for n, (x, y) in enumerate(contour_line_segments):
+    #                     contour_segment.append((x+j, y+i))
+    #                     if n == 1:
+    #                         contours.append(contour_segment)
+    #                         contour_segment = []
+    #                     elif n == 3:
+    #                         contours.append(contour_segment)
+    #             else:
+    #                 for n, (x, y) in enumerate(contour_line_segments):
+    #                     contour_segment.append((x+j, y+i))
+    #                 contours.append(contour_segment)
+    #     contour_cells.append(contour_cell_row)
+    return contour_lines
 
 
 def plot_contour_lines_2d(x_coords, y_coords, values, sweep_num, contour_lines):
@@ -289,21 +319,18 @@ def main():
     # plot_circular_sweep_3d(sweep=sweeps[0], metadata=metadata[0], sweep_num=0)
     x, y, z, values = get_x_y_z_values_from_sweep(sweeps[0], metadata[0])
     # OpenGLFramework(x=x, y=y, z=z, values=values)
-    x = np.array(x).reshape((int(len(x)/2), -1))
-    y = np.array(y).reshape((int(len(y)/2), -1))
-    z = np.array(z).reshape((int(len(z)/2), -1))
-    CS = plt.contour(x, y, z)
-    plt.clabel(CS, inline=1, fontsize=10)
+    # x = np.array(x).reshape((int(len(x)/2), -1))
+    # y = np.array(y).reshape((int(len(y)/2), -1))
+    # z = np.array(z).reshape((int(len(z)/2), -1))
+    # CS = plt.contour(x, y, z)
+    contour_lines = marching_squares_contour(sweep=sweeps[0], threshold=13, sweep_num=0)
+    # plt.clabel(CS, inline=1, fontsize=10)
     plt.show()
     # contour_lines = marching_squares_contour(sweep=sweeps[0])
-    # plot_contour_lines_2d(x_coords=x, y_coords=y, values=values, sweep_num=0, contour_lines=contour_lines)
+    plot_contour_lines_2d(x_coords=x, y_coords=y, values=values, sweep_num=0, contour_lines=contour_lines)
     # plt.colorbar(mappable=colors)
     # plot_circular_sweeps(sweeps, metadata)
     pass
-    # Goal: To create a scatter plot using only angle and distance/radius.
-    # How to turn angle and distance into an x and y value?
-    # Each sweep has a different angle and height associated with it. The angle is given by the azimuth
-    # Elevation tells you
 
 
 if __name__ == '__main__':
