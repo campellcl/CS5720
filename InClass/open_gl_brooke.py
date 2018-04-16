@@ -161,17 +161,18 @@ def open_gl(sweeps, threshold=15):
     z_coords = []
     values = []
     # TODO: Dynamicize
-    for i, distance in enumerate(sweeps[0]):
-        for angle, distance in enumerate(distance):
-            # height = metadata['sweep']['height']
-            # elevation = metadata['radials'][angle]['elevation']
-            x = np.cos(np.radians(angle))*i
-            y = np.sin(np.radians(angle))*i
-            # z = i * np.sin(np.radians(elevation))
-            x_coords.append(x)
-            y_coords.append(y)
-            # z_coords.append(z)
-            values.append(sweeps[0][i][angle])
+    for n, sweep in enumerate(sweeps):
+        for i, distance in enumerate(sweep):
+            for angle, distance in enumerate(distance):
+                # height = metadata['sweep']['height']
+                # elevation = metadata['radials'][angle]['elevation']
+                x = np.cos(np.radians(angle))*i
+                y = np.sin(np.radians(angle))*i
+                # z = i * np.sin(np.radians(elevation))
+                x_coords.append(x)
+                y_coords.append(y)
+                # z_coords.append(z)
+                values.append(sweeps[0][i][angle])
     # plt.clf()
     values_thresholded = []
     x_coords_thresholded = []
