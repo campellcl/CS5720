@@ -178,15 +178,17 @@ def open_gl(sweeps, threshold=15):
     x_coords_thresholded = []
     y_coords_thresholded = []
     z_coords_thresholded = []
-    points.append(([1, 1, 1], [0, 0, 1]))
-    # for i, (x, y, z) in enumerate(zip(x_coords, y_coords, z_coords)):
-    #     if values[i] > threshold:
-    #         values_thresholded.append(values[i])
-    #         x_coords_thresholded.append(x)
-    #         y_coords_thresholded.append(y)
-    #         z_coords_thresholded.append(z)
+    # points.append(([1, 1, 1], [0, 0, 1]))
+    for i, (x, y, z) in enumerate(zip(x_coords, y_coords, z_coords)):
+        if values[i] > threshold:
+            values_thresholded.append(values[i])
+            x_coords_thresholded.append(x)
+            y_coords_thresholded.append(y)
+            z_coords_thresholded.append(z)
+            print('appending point')
+            points.append(([x, y, z], [0, 0, 1]))
     # points.append((list(zip(x_coords, y_coords)), [0, 0, 1]))
-
+    print(points)
     # # callbacks
     glutDisplayFunc(display)
     glutMouseFunc(mouse_func)
@@ -281,7 +283,7 @@ def main():
     file_name = '../data/weather/%d.RFLCTVTY' % index
     sweeps, metadata = read_reflectivity(file_name)
     sweep = 0
-    open_gl(sweeps, threshold=15)
+    open_gl(sweeps, threshold=10)
 
 if __name__ == '__main__':
     main()
