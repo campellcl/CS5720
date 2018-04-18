@@ -25,6 +25,7 @@ image_height = None
 image_depth = None
 win_id = None
 
+
 def display():
     global eye, target, up, fov_y, aspect, near, far, vertices, points, normals
 
@@ -65,6 +66,7 @@ def display():
     glEnable(GL_LIGHTING)
     glutSwapBuffers()
 
+
 def motion_func(x, y):
     global win_id
     # this function modeled after modeler.PerspectiveCamera.orbit() function written by 'ags' here:
@@ -102,6 +104,7 @@ def motion_func(x, y):
     # print(eye)
     previous_point = (x, y)
 
+
 def mouse_func(button, state, x, y):
     global previous_point, button_down
     # print(button_down, state, x, y)
@@ -117,7 +120,8 @@ def mouse_func(button, state, x, y):
         elif state == GLUT_UP:
             button_down = None
 
-def open_gl(sweeps, threshold=15):
+
+def open_gl(sweeps, metadata, threshold=15):
     global eye, target, up, fov_y, aspect, near, far, window, image_width, image_height, image_depth, win_id, points
     image_width = len(sweeps)
     image_height = len(sweeps[0])
@@ -160,18 +164,17 @@ def open_gl(sweeps, threshold=15):
     y_coords = []
     z_coords = []
     values = []
-    # TODO: Dynamicize
     for n, sweep in enumerate(sweeps):
         for i, distance in enumerate(sweep):
             for angle, distance in enumerate(distance):
                 # height = metadata['sweep']['height']
-                # elevation = metadata['radials'][angle]['elevation']
+                elevation = metadata['radials'][angle]['elevation']
                 x = np.cos(np.radians(angle))*i
                 y = np.sin(np.radians(angle))*i
-                # z = i * np.sin(np.radians(elevation))
+                z = i * np.sin(np.radians(elevation))
                 x_coords.append(x)
                 y_coords.append(y)
-                # z_coords.append(z)
+                z_coords.append(z)
                 values.append(sweeps[0][i][angle])
     # plt.clf()
     values_thresholded = []
@@ -185,16 +188,17 @@ def open_gl(sweeps, threshold=15):
             x_coords_thresholded.append(x)
             y_coords_thresholded.append(y)
             z_coords_thresholded.append(z)
-            print('appending point')
+            # print('appending point')
             points.append(([x, y, z], [0, 0, 1]))
     # points.append((list(zip(x_coords, y_coords)), [0, 0, 1]))
-    print(points)
+    # print(points)
     # # callbacks
     glutDisplayFunc(display)
     glutMouseFunc(mouse_func)
     glutMotionFunc(motion_func)
 
     glutMainLoop()
+
 
 def read_reflectivity(file_name):
     sweeps = []
@@ -278,12 +282,14 @@ def read_reflectivity(file_name):
 
     return sweeps, metadata
 
+
 def main():
     index = 121
     file_name = '../data/weather/%d.RFLCTVTY' % index
     sweeps, metadata = read_reflectivity(file_name)
     sweep = 0
-    open_gl(sweeps, threshold=10)
+    open_gl(sweeps, metadata[0], threshold=10)
+
 
 if __name__ == '__main__':
     main()
