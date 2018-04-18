@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from matplotlib import collections as mc
 from mpl_toolkits.mplot3d import Axes3D
 import copy
-from InClass.open_gl_framework import OpenGLFramework
 
 
 def read_reflectivity(file_name):
@@ -282,11 +281,11 @@ def main():
     # y = np.array(y).reshape((int(len(y)/2), -1))
     # z = np.array(z).reshape((int(len(z)/2), -1))
     # CS = plt.contour(x, y, z)
-    contour_lines = marching_squares_contour(sweep=sweeps[0], threshold=13, sweep_num=0)
+    # contour_lines = marching_squares_contour(sweep=sweeps[0], threshold=13, sweep_num=0)
     # plt.clabel(CS, inline=1, fontsize=10)
-    plt.show()
+    # plt.show()
     # contour_lines = marching_squares_contour(sweep=sweeps[0])
-    plot_contour_lines_2d(x_coords=x, y_coords=y, values=values, sweep_num=0, contour_lines=contour_lines)
+    # plot_contour_lines_2d(x_coords=x, y_coords=y, values=values, sweep_num=0, contour_lines=contour_lines)
     # plt.colorbar(mappable=colors)
     # plot_circular_sweeps(sweeps, metadata)
     pass
