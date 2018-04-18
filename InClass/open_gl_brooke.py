@@ -189,6 +189,7 @@ def open_gl(sweeps, metadata, threshold=15):
             y_coords_thresholded.append(y)
             z_coords_thresholded.append(z)
             # print('appending point')
+            # TODO: 4th element in color vector is opacity, vary this with the values.
             points.append(([x, y, z], [0, 0, 1]))
     # points.append((list(zip(x_coords, y_coords)), [0, 0, 1]))
     # print(points)
