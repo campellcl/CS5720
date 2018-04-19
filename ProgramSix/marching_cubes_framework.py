@@ -318,17 +318,17 @@ def create_mesh():
                 '''
                 h0 = x[i][j][k] + (x[i][j][k+1] * 2) + (x[i][j+1][k] * 4) + (x[i][j+1][k+1] * 8) \
                      + (x[i+1][j][k] * 16) + (x[i+1][j][k+1] * 32) + (x[i+1][j+1][k] * 64) + (x[i+1][j+1][k+1] * 128)
-                # print('h0: %d' % h0)
+                print('h0: %d' % h0)
                 # Rotate cube 24 different ways to see if any cases match:
                 rotation = None
                 for r_num, r in enumerate(rotations):
                     # print('\tr: %s' % rotation_repr[r_num])
                     # h is the cube after applying a rotation:
                     h = rotate(r, h0)
-                    # print('\th: %d' % h)
+                    print('\th: %d' % h)
                     # We also want to check the opposite contour case for efficiency:
                     ih = invert(h)
-                    # print('\tih: %d' % ih)
+                    print('\tih: %d' % ih)
                     # Now check all of the 15 cases for a match:
                     if h == 0 or ih == 0:
                         pass
@@ -509,8 +509,7 @@ def create_mesh():
                         normals.append(norms['top'])
                         break
                     elif h == 105 or ih == 105:
-                        # TODO: Resolve ih inverse error with case 7. Specifically, should the lines really be drawn in
-                        #   the same place when the vertices are off? How to distinguish between rotation?
+                        # Approved.
                         # wikipedia case 7
                         # tested on: pgm 105, pgm 150
                         verts = []
@@ -834,7 +833,7 @@ def create_mesh():
                         # vertices = vertices.tolist()
                         break
                     else:
-                        # print('Failed to match %d' % h0)
+                        print('Failed to match %d' % h0)
                         continue
                 # if rotation is not None:
                 #     # print('rotation', rotation)
@@ -915,6 +914,7 @@ def display():
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 0)
 
     glDisable(GL_LIGHTING)
+    # glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
     glBegin(GL_TRIANGLES)
     for i in range(len(vertices)):
         glColor3fv([1, 1, 1])
