@@ -833,12 +833,6 @@ def create_mesh():
                     else:
                         # print('Failed to match %d' % h0)
                         continue
-                # if rotation is not None:
-                #     # print('rotation', rotation)
-                #     vertices = np.array(vertices)
-                #     vertices = vertices.dot(rotation)
-                #     vertices = (vertices + 1) / 2
-                #     vertices = vertices.tolist()
     vertices = np.array(vertices)
     normals = np.array(normals)
 
