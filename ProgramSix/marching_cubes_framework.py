@@ -602,30 +602,27 @@ def create_mesh():
                         normals.append(norms['top'])
                         break
                     elif h == 46 or ih == 46:
-                        # TODO: Fix case 9 under rotation with dr. parry's help.
-                        # TODO: Actually this case is just badly broken in general. Re-do pgm tests.
-                        # TODO: Appears this case is not being picked up.... wrong base case or pgm pattern.
-                        # Wikipedia case 9 (coded on pgm 202)
-                        # Tested on: pgm 83, pgm 202, pgm 141, pgm 92,
-                        # Case 15 tests: pgm 27,
+                        # Wikipedia case 9 (coded on pgm 172)
+                        # Tested on: pgm 172, pgm 083, pgm 202, pgm 141, pgm 92
+                        # Case 15 tests: pgm 27
                         verts = []
                         # First Triangle:
-                        verts.append([1, 0, -1])
                         verts.append([0, 1, -1])
-                        verts.append([-1, 1, 0])
-                        # Second Triangle:
-                        verts.append([-1, 1, 0])
+                        verts.append([1, 0, 1])
                         verts.append([-1, -1, 0])
-                        verts.append([0, -1, 1])
+                        # Second Triangle:
+                        verts.append([0, 1, 1])
+                        verts.append([0, 1, -1])
+                        verts.append([1, 0, 1])
                         # Third Triangle:
-                        # vertices.append([1, 0, -1])
-                        # vertices.append([1, 0, 1])
-                        # vertices.append([0, -1, 1])
+                        verts.append([-1, 0, -1])
+                        verts.append([-1, -1, 0])
+                        verts.append([0, 1, -1])
                         # Fourth Triangle:
+                        verts.append([-1, -1, 0])
+                        verts.append([1, -1, 0])
+                        verts.append([1, 0, 1])
                         # Note: Comment this triangle out for ease of debugging
-                        # vertices.append([-1, 1, 0])
-                        # vertices.append([0, -1, 1])
-                        # vertices.append([1, 0, -1])
                         verts = np.array(verts)
                         verts = verts.dot(r)
                         verts = (verts + 1) / 2
@@ -787,8 +784,15 @@ def create_mesh():
                         normals.append(norms['top'])
                         break
                     elif h == 172 or ih == 172:
+                        # TODO: How to distinguish between active vertices wiki case 14 and wiki case 10.
                         # Wikipeida <last case> 14 (coded on pgm 053)
                         # Tested on pgm: pgm 172, pgm 53, pgm 202
+                        '''
+                        DEBUG: 
+                        * pgm 053 (h0: 172), (ih: 83) correct.
+                        pgm 202 (h0:83), (ih: 172) correct.
+                        pgm 172 (h0: 53), (ih: 202)-> (h:209, ih:46) incorrect, trips case 46.
+                        '''
                         # First Triangle:
                         verts = []
                         verts.append([1, -1, 0])
@@ -827,10 +831,6 @@ def create_mesh():
                         normals.append(norms['top'])
                         normals.append(norms['top'])
                         normals.append(norms['top'])
-                        # vertices = np.array(vertices)
-                        # vertices = vertices.dot(rotation)
-                        # vertices = (vertices + 1) / 2
-                        # vertices = vertices.tolist()
                         break
                     else:
                         print('Failed to match %d' % h0)
