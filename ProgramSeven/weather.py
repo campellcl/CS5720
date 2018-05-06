@@ -106,7 +106,7 @@ def plot_circular_sweep_2d(sweep, sweep_num, colors):
     plt.title('Sweep %d' % sweep_num)
     plt.colorbar()
     plt.savefig('a.png')
-    plt.show()
+    # plt.show()
 
 
 def plot_circular_sweeps(sweeps, metadata):
@@ -160,8 +160,45 @@ def plot_circular_sweep_3d(sweep, metadata, sweep_num, threshold=10):
     plt.title('Sweep %d 3D (threshold: %d)' % (sweep_num, threshold))
     plt.colorbar(mappable=im, ax=ax)
     plt.savefig('c.png')
-    plt.show()
+    # plt.show()
 
+
+def plot_circular_sweeps_3d(sweeps, metadata, threshold=10):
+    x_coords = []
+    y_coords = []
+    z_coords = []
+    values = []
+    for n in range(len(sweeps)):
+        sweep = sweeps[n]
+        for i, distance in enumerate(sweep):
+            for angle, distance in enumerate(distance):
+                # height = metadata['sweep']['height']
+                elevation = metadata[n]['radials'][angle]['elevation']
+                x = np.cos(np.radians(angle))*i
+                y = np.sin(np.radians(angle))*i
+                z = i * np.sin(np.radians(elevation))
+                x_coords.append(x)
+                y_coords.append(y)
+                z_coords.append(z)
+                values.append(sweep[i][angle])
+    # plt.clf()
+    values_thresholded = []
+    x_coords_thresholded = []
+    y_coords_thresholded = []
+    z_coords_thresholded = []
+    for i, (x, y, z) in enumerate(zip(x_coords, y_coords, z_coords)):
+        if values[i] > threshold:
+            values_thresholded.append(values[i])
+            x_coords_thresholded.append(x)
+            y_coords_thresholded.append(y)
+            z_coords_thresholded.append(z)
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    im = ax.scatter(x_coords_thresholded, y_coords_thresholded, z_coords_thresholded, c=values_thresholded)
+    plt.title('All Sweeps 3D (threshold: %d)' % threshold)
+    plt.colorbar(mappable=im, ax=ax)
+    plt.savefig('d.png')
+    # plt.show()
 
 def get_x_y_z_values_from_sweep(sweep, metadata):
     x_coords = []
@@ -257,7 +294,8 @@ def plot_contour_lines_2d(x_coords, y_coords, values, sweep_num, contour_lines):
     ax.add_collection(lc)
     plt.title('Sweep %d' % sweep_num)
     plt.colorbar()
-    plt.show()
+    plt.savefig('b.png')
+    # plt.show()
 
 
 def main():
@@ -277,17 +315,23 @@ def main():
     plot_circular_sweep_2d(sweep=sweeps[0], sweep_num=0, colors=colors)
     # Plot one sweep in 3d:
     plot_circular_sweep_3d(sweep=sweeps[0], metadata=metadata[0], sweep_num=0)
+    # Plot one sweep as a 2D contour plot (marching squares):
     x, y, z, values = get_x_y_z_values_from_sweep(sweeps[0], metadata[0])
-    # OpenGLFramework(x=x, y=y, z=z, values=values)
-    x = np.array(x).reshape((int(len(x)/2), -1))
-    y = np.array(y).reshape((int(len(y)/2), -1))
-    z = np.array(z).reshape((int(len(z)/2), -1))
-    CS = plt.contour(x, y, z)
     contour_lines = marching_squares_contour(sweep=sweeps[0], threshold=13, sweep_num=0)
-    plt.clabel(CS, inline=1, fontsize=10)
-    plt.show()
+    plot_contour_lines_2d(x_coords=x, y_coords=y, values=values, sweep_num=0, contour_lines=contour_lines)
+    # Plot all sweeps in 3d:
+    plot_circular_sweeps_3d(sweeps=sweeps, metadata=metadata, threshold=10)
+
+    # OpenGLFramework(x=x, y=y, z=z, values=values)
+    # x = np.array(x).reshape((int(len(x)/2), -1))
+    # y = np.array(y).reshape((int(len(y)/2), -1))
+    # z = np.array(z).reshape((int(len(z)/2), -1))
+    # CS = plt.contour(x, y, z)
+
+    # plt.clabel(CS, inline=1, fontsize=10)
+    # plt.show()
     # contour_lines = marching_squares_contour(sweep=sweeps[0])
-    # plot_contour_lines_2d(x_coords=x, y_coords=y, values=values, sweep_num=0, contour_lines=contour_lines)
+
     # plt.colorbar(mappable=colors)
     # plot_circular_sweeps(sweeps, metadata)
     pass
