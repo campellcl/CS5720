@@ -105,6 +105,7 @@ def plot_circular_sweep_2d(sweep, sweep_num, colors):
     plt.scatter(x_coords, y_coords, c=values)
     plt.title('Sweep %d' % sweep_num)
     plt.colorbar()
+    plt.savefig('a.png')
     plt.show()
 
 
@@ -156,8 +157,9 @@ def plot_circular_sweep_3d(sweep, metadata, sweep_num, threshold=10):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     im = ax.scatter(x_coords_thresholded, y_coords_thresholded, z_coords_thresholded, c=values_thresholded)
-    plt.title('Sweep %d 3D' % sweep_num)
+    plt.title('Sweep %d 3D (threshold: %d)' % (sweep_num, threshold))
     plt.colorbar(mappable=im, ax=ax)
+    plt.savefig('c.png')
     plt.show()
 
 
@@ -272,18 +274,18 @@ def main():
     # map values to colors:
     colors = sweeps[0].reshape((-1, ))
     # Plot one sweep in 2d:
-    # plot_circular_sweep_2d(sweep=sweeps[0], sweep_num=0, colors=colors)
+    plot_circular_sweep_2d(sweep=sweeps[0], sweep_num=0, colors=colors)
     # Plot one sweep in 3d:
-    # plot_circular_sweep_3d(sweep=sweeps[0], metadata=metadata[0], sweep_num=0)
+    plot_circular_sweep_3d(sweep=sweeps[0], metadata=metadata[0], sweep_num=0)
     x, y, z, values = get_x_y_z_values_from_sweep(sweeps[0], metadata[0])
     # OpenGLFramework(x=x, y=y, z=z, values=values)
-    # x = np.array(x).reshape((int(len(x)/2), -1))
-    # y = np.array(y).reshape((int(len(y)/2), -1))
-    # z = np.array(z).reshape((int(len(z)/2), -1))
-    # CS = plt.contour(x, y, z)
-    # contour_lines = marching_squares_contour(sweep=sweeps[0], threshold=13, sweep_num=0)
-    # plt.clabel(CS, inline=1, fontsize=10)
-    # plt.show()
+    x = np.array(x).reshape((int(len(x)/2), -1))
+    y = np.array(y).reshape((int(len(y)/2), -1))
+    z = np.array(z).reshape((int(len(z)/2), -1))
+    CS = plt.contour(x, y, z)
+    contour_lines = marching_squares_contour(sweep=sweeps[0], threshold=13, sweep_num=0)
+    plt.clabel(CS, inline=1, fontsize=10)
+    plt.show()
     # contour_lines = marching_squares_contour(sweep=sweeps[0])
     # plot_contour_lines_2d(x_coords=x, y_coords=y, values=values, sweep_num=0, contour_lines=contour_lines)
     # plt.colorbar(mappable=colors)
